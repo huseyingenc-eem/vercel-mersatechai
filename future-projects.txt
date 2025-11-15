@@ -1,0 +1,68 @@
+Otomasyonun Adı: "ASLA MÜŞTERİ KAÇIRMA" Otomasyonu
+Amaç: Müşteri adayı size ulaştığı anda (farklı kanallardan) bunu fark etmek, otomatik olarak kaydetmek, ekibi uyarmak ve müşteriye anında geri dönmek.
+Bu otomasyonu N8N'de bir "iş akışı" (workflow) olarak kuracağız. Bu akışı bir boru hattı gibi düşünün; farklı yerlerden giren veriler (müşteri bilgileri) bu borudan akarak ilgili yerlere (CRM, Slack, E-posta) dağıtılır.
+İşte bu boru hattının (N8N workflow) adım adım modülleri:
+Modül 1: Tetikleyiciler (Müşterinin Girdiği Kapılar)
+Otomasyonun başlaması için bir sinyal gerekir. Bu sinyal, yeni bir müşteri adayının gelmesidir.
+•⁠  ⁠1. Kapı: Web Sitesi Formu (Webhook Düğümü)
+•⁠  ⁠Nedir? N8N'in "Webhook" (dijital zil) düğümü size özel bir internet adresi (URL) verir.
+•⁠  ⁠Nasıl Çalışır? Web sitenizdeki (Elementor, Webflow, Contact Form 7 vb.) iletişim veya teklif formunun ayarlarına bu adresi girersiniz. Müşteri formu doldurup "Gönder" dediği an, web siteniz N8N'in "zilini çalar" ve tüm form bilgileri (Ad, E-posta, Telefon) anında N8N'e akar.
+•⁠  ⁠2. Kapı: Facebook/Instagram Reklamları (Facebook Lead Ads Düğümü)
+•⁠  ⁠Nedir? Bu, N8N'in Facebook ile konuşan özel bir düğümüdür.
+•⁠  ⁠Nasıl Çalışır? Facebook hesabınızı N8N'e bağlarsınız. Bir kullanıcı Facebook'ta reklam formunuzu doldurduğu anda, Facebook bu bilgiyi N8N'e iletir. E-tablolardan manuel veri çekmeye son.
+•⁠  ⁠3. Kapı: LinkedIn Reklamları (LinkedIn Lead Gen Düğümü)
+•⁠  ⁠Nedir? Aynı Facebook gibi, LinkedIn ile konuşan düğümdür.
+•⁠  ⁠Nasıl Çalışır? B2B çalışıyorsanız kritik öneme sahiptir. LinkedIn formları dolduğu anda veri N8N'dedir.
+•⁠  ⁠4. Kapı: Manuel Girişler (Google Sheets Düğümü - Tetikleyici)
+•⁠  ⁠Nedir? Ekibinizin fuarda veya telefonda aldığı bilgileri girdiği bir Google E-Tablosu.
+•⁠  ⁠Nasıl Çalışır? N8N'i "Her 5 dakikada bir bu e-tabloyu kontrol et, yeni satır eklenmişse otomasyonu başlat" diye ayarlarsınız.
+Modül 2: Veri Standardizasyonu (Bilgiyi Düzenleme)
+Farklı kapılardan gelen veriler dağınık olabilir (örn: "isim", "ad", "full_name"). Hepsini aynı formata sokmalıyız.
+•⁠  ⁠Araç: "Set" Düğümü (Veri Ayarlama)
+•⁠  ⁠Nasıl Çalışır? Gelen veriyi alır ve standart etiketlere atar. Örneğin, {{$json["isim"]}} veya {{$json["full_name"]}} bilgisini alır ve bunu standart_ad_soyad diye tek bir etikete atar. Artık otomasyonun geri kalanı sadece bu standart etiketi kullanır.
+Modül 3: Anında Eylem (Satış Ekibini Uyarma)
+Hız, satışı kapatmanın anahtarıdır. Ekip anında haberdar olmalı.
+•⁠  ⁠Araç: "Slack" veya "Microsoft Teams" Düğümü
+•⁠  ⁠Nasıl Çalışır? Bu düğüm, ekibinizin kullandığı iletişim kanalına bağlanır.
+•⁠  ⁠Örnek Mesaj: Satış ekibinizin #potansiyel-müşteriler kanalına saniyeler içinde şu mesajı atar:
+"🔔 YENİ MÜŞTERİ ADAYI! 🔔
+Adı: [Müşterinin Adı]
+Telefon: [Müşterinin Telefonu]
+Kaynak: [Facebook Reklamı]
+Not: [Müşterinin Mesajı]
+Ekip, lütfen 5 dakika içinde arayın!"
+Modül 4: Kayıt ve Arşivleme (Şirket Hafızası)
+Müşteri adayı asla kaybolmamalı. "E-postada kalmıştı" devri bitmeli.
+•⁠  ⁠Araç: "CRM Düğümü" (HubSpot, Pipedrive, Zoho vb.)
+•⁠  ⁠Nasıl Çalışır? N8N, CRM hesabınıza bağlanır. Gelen bilgileri kullanarak CRM'de otomatik olarak "Yeni Kişi" ve "Yeni Fırsat" kartı oluşturur. Satış ekibinin sıfır manuel veri girişi yapması gerekir.
+•⁠  ⁠Alternatif Araç: "Google Sheets Düğümü" (Ekleme)
+•⁠  ⁠Nasıl Çalışır? Eğer pahalı bir CRM kullanmıyorsanız, N8N tüm bu bilgileri merkezi bir "Müşteri Adayı Veritabanı" e-tablosuna tarih, saat ve kaynak bilgisiyle birlikte yeni bir satır olarak ekler.
+Modül 5: Müşteriyi Bilgilendirme (İlk Dokunuş)
+Müşteri, formunu doldurduğunda "Acaba ulaştı mı?" diye düşünmemeli.
+•⁠  ⁠Araç: "Gmail" / "Microsoft Outlook" / "SMTP" Düğümü
+•⁠  ⁠Nasıl Çalışır? N8N, şirket e-posta hesabınızı kullanarak müşteriye anında kişiselleştirilmiş bir e-posta gönderir.
+•⁠  ⁠Örnek E-posta:
+"Konu: Başvurunuzu Aldık!
+Merhaba [Müşterinin Adı],
+[Şirket Adı]'na gösterdiğiniz ilgi için teşekkür ederiz. Mesajınızı aldık.
+Uzman ekibimiz başvurunuzu inceliyor, en kısa sürede (genellikle 1 saat içinde) size belirttiğiniz telefon numarasından ulaşacağız.
+Saygılarımızla,"
+Sistem Özeti: Bu 5 modül birleştiğinde, siz uyurken bile bir müşteri adayı form doldurduğunda, N8N bu kişiyi yakalar, CRM'e kaydeder, satış ekibinize "Hemen Ara!" diye bildirir ve müşteriye "Sizi Aldık" e-postası gönderir. Bu, tek bir çalışanın 7/24 tüm kanalları izleyen, veri giren ve e-posta atan 5 kişilik bir operasyon ekibi gibi çalışmasını sağlar
+
+
+
+
+Hizmetten SaaS'a Geçiş (Faz 2) İçin İpucu
+Planınızdaki en kritik nokta, bu hizmeti bir SaaS'a çevirmektir. Bunu yapmak için:
+1.⁠ ⁠"N8N Wrapper" (Sarmalayıcı) Oluşturun: Başlangıçta her müşteriye özel N8N kurmak yerine, tek bir merkezi N8N (veya ölçeklenmiş bir N8N mimarisi) kurun.
+2.⁠ ⁠Web Arayüzü Geliştirin: Müşterilerinizin N8N arayüzünü görmesine gerek yok. Onlar için basitleştirilmiş bir web sitesi (ör: "Buraya Google hesabını bağla", "Buraya Slack webhook adresini gir") yapın.
+3.⁠ ⁠API Üzerinden Yönetim: Bu web arayüzü, arka planda N8N API'si aracılığıyla o müşteriye özel workflow’ları (iş akışlarını) tetiklesin veya ayarlarını değiştirsin.
+
+
+
+
+"Tüm Kanallardan Gelen Potansiyel Müşteri (Lead) Bilgilerini Tek Bir Yerde Toplama ve İşleme Otomasyonu"
+•⁠  ⁠Akış (Flow):
+1.⁠ ⁠Toplama: Web sitesi formu (Elementor, Webflow, Contact Form 7), Facebook Lead Ads, LinkedIn Lead Gen Formları, hatta manuel girilen bir Google E-Tablosu'n
+Otomatik Teklif/Sözleşme Takibi
+•⁠  ⁠Neden: Satış ekiplerinin en çok unuttuğu şey takiptir. PandaDoc/Hellosign gibi sistemlerden "gönderilen" ama "imzalanmayan" teklifleri 3 gün sonra otomatik olarak müşteriye ve satış temsilcisine hatırlatır.
