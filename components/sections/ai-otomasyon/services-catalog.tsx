@@ -126,7 +126,7 @@ export function ServicesSection() {
             <Card
               key={index}
               icon={service.icon}
-              title={service.title}
+              title={service.category}
               description={service.description}
               index={index}
               variant="elevated"
