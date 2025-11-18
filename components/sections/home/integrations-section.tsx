@@ -23,7 +23,8 @@ import {
   SiZendesk,
 } from "react-icons/si";
 import { MdGroups } from "react-icons/md";
-import { IconType } from "react-icons";
+import type { IconType } from "react-icons";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Integration {
   name: string;
@@ -56,109 +57,164 @@ const firstRow = integrations.slice(0, 8);
 const secondRow = integrations.slice(8, 16);
 
 export function IntegrationsSection() {
+  // 📱 Burada senin hook'unu KULLANIYORUZ, değiştirmiyoruz
+  const isMobile = useIsMobile();
+
   return (
-    <Container id="integrations" sectionBg="slate" className="py-20">
-      {/* Content wrapper */}
-      <div className="relative">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/10 border border-blue-500/20 mb-6">
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span className="text-sm text-blue-400 dark:text-blue-300">Integrations</span>
-          </div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            100+ Platform Entegrasyonu
-          </h2>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            Kullandığınız tüm araçlarla sorunsuz entegrasyon
-          </p>
-        </motion.div>
-
-        {/* Full-width Scroll Container - Breaks out of container to span full viewport width */}
-        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-          {/* İlk Sıra - Sola Kayıyor */}
-          <div className="mb-6 sm:mb-8">
-            <InfiniteScroll direction="left" speed={30}>
-              {firstRow.map((integration, index) => (
-                <div key={`first-${index}`} className="min-w-[320px] sm:min-w-[380px] px-3">
-                  <div className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-card/50 to-muted/30 backdrop-blur-sm hover:from-card hover:to-muted transition-all duration-300">
-                    <div className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${integration.color} p-3 shadow-lg flex items-center justify-center`}>
-                      <integration.icon className="w-full h-full text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                          {integration.name}
-                        </h3>
-                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-                          {integration.category}
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                        {integration.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </InfiniteScroll>
-          </div>
-
-          {/* İkinci Sıra - Sağa Kayıyor */}
-          <div className="mb-12">
-            <InfiniteScroll direction="right" speed={35}>
-              {secondRow.map((integration, index) => (
-                <div key={`second-${index}`} className="min-w-[320px] sm:min-w-[380px] px-3">
-                  <div className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-card/50 to-muted/30 backdrop-blur-sm hover:from-card hover:to-muted transition-all duration-300">
-                    <div className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${integration.color} p-3 shadow-lg flex items-center justify-center`}>
-                      <integration.icon className="w-full h-full text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-base sm:text-lg font-bold text-foreground">
-                          {integration.name}
-                        </h3>
-                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-                          {integration.category}
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                        {integration.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </InfiniteScroll>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <p className="text-muted-foreground mb-6 text-sm sm:text-base">
-            Aradığınız entegrasyonu bulamadınız mı?
-          </p>
-          <a
-            href="/iletisim"
-            className="inline-block px-6 py-3 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-500 dark:text-blue-400 rounded-lg transition-all"
+      <Container id="integrations" sectionBg="slate" className="py-20">
+        {/* Content wrapper */}
+        <div className="relative">
+          {/* Header */}
+          <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
           >
-            Özel Entegrasyon Talebi
-          </a>
-        </motion.div>
-      </div>
-    </Container>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/10 border border-blue-500/20 mb-6">
+              <Sparkles className="w-4 h-4 text-blue-400" />
+              <span className="text-sm text-blue-400 dark:text-blue-300">
+              Integrations
+            </span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              100+ Platform Entegrasyonu
+            </h2>
+            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
+              Kullandığınız tüm araçlarla sorunsuz entegrasyon
+            </p>
+          </motion.div>
+
+          {/* Full-width Scroll Container */}
+          <div
+              className={
+                isMobile
+                    ? // 📱 Mobilde container içinde kalsın, taşmasın
+                    "relative w-full"
+                    : // 🖥 Desktop'ta full width
+                    "relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"
+              }
+          >
+            {/* Sol / Sağ blur – mobilde daha küçük / istersen tamamen gizleyebilirsin */}
+            <div className="pointer-events-none">
+              {/* Sol blur */}
+              <div
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10
+              ${
+                      isMobile
+                          ? "w-40 h-40 bg-secondary/60 dark:bg-black/60"
+                          : "w-80 h-80 bg-secondary dark:bg-black"
+                  }`}
+              />
+              {/* Sağ blur */}
+              <div
+                  className={`absolute right-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10
+              ${
+                      isMobile
+                          ? "w-40 h-40 bg-secondary/60 dark:bg-black/60"
+                          : "w-80 h-80 bg-secondary dark:bg-black"
+                  }`}
+              />
+            </div>
+
+            {/* İlk Sıra - Sola Kayıyor */}
+            <div className="mb-6 sm:mb-8">
+              <InfiniteScroll direction="left" speed={isMobile ? 20 : 30}>
+                {firstRow.map((integration, index) => (
+                    <div
+                        key={`first-${index}`}
+                        className="min-w-[260px] sm:min-w-[320px] md:min-w-[380px] px-3"
+                    >
+                      <div className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-card/50 to-muted/30 backdrop-blur-sm hover:from-card hover:to-muted transition-all duration-300">
+                        <div
+                            className={`flex-shrink-0 rounded-xl bg-gradient-to-br ${integration.color} shadow-lg flex items-center justify-center
+                      ${
+                                isMobile
+                                    ? "w-10 h-10 p-2.5"
+                                    : "w-12 h-12 sm:w-14 sm:h-14 p-3"
+                            }`}
+                        >
+                          <integration.icon className="w-full h-full text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground">
+                              {integration.name}
+                            </h3>
+                            <span className="text-[10px] sm:text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                          {integration.category}
+                        </span>
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {integration.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                ))}
+              </InfiniteScroll>
+            </div>
+
+            {/* İkinci Sıra - Sağa Kayıyor */}
+            <div className="mb-12">
+              <InfiniteScroll direction="right" speed={isMobile ? 22 : 35}>
+                {secondRow.map((integration, index) => (
+                    <div
+                        key={`second-${index}`}
+                        className="min-w-[260px] sm:min-w-[320px] md:min-w-[380px] px-3"
+                    >
+                      <div className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-card/50 to-muted/30 backdrop-blur-sm hover:from-card hover:to-muted transition-all duration-300">
+                        <div
+                            className={`flex-shrink-0 rounded-xl bg-gradient-to-br ${integration.color} shadow-lg flex items-center justify-center
+                      ${
+                                isMobile
+                                    ? "w-10 h-10 p-2.5"
+                                    : "w-12 h-12 sm:w-14 sm:h-14 p-3"
+                            }`}
+                        >
+                          <integration.icon className="w-full h-full text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="text-sm sm:text-base md:text-lg font-bold text-foreground">
+                              {integration.name}
+                            </h3>
+                            <span className="text-[10px] sm:text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                          {integration.category}
+                        </span>
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            {integration.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                ))}
+              </InfiniteScroll>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mt-12"
+          >
+            <p className="text-muted-foreground mb-6 text-sm sm:text-base">
+              Aradığınız entegrasyonu bulamadınız mı?
+            </p>
+            <a
+                href="/iletisim"
+                className="inline-block px-6 py-3 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-500 dark:text-blue-400 rounded-lg transition-all"
+            >
+              Özel Entegrasyon Talebi
+            </a>
+          </motion.div>
+        </div>
+      </Container>
   );
 }
