@@ -159,4 +159,3 @@ export const H6 = (props: Omit<TextProps, 'variant'>) => <Text variant="h6" {...
 export const Lead = (props: Omit<TextProps, 'variant'>) => <Text variant="lead" {...props} />;
 export const Small = (props: Omit<TextProps, 'variant'>) => <Text variant="small" {...props} />;
 export const Tiny = (props: Omit<TextProps, 'variant'>) => <Text variant="tiny" {...props} />;
-

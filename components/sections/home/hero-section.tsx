@@ -3,7 +3,6 @@ import React from "react";
 import {PageHero} from "@/components/shared/page-hero";
 import {Card} from "@/components/ui/core/card";
 import {Sparkles, Zap, Users, TrendingUp} from "lucide-react";
-import {Text} from "@/components/ui/typography/text";
 
 export function HeroSection() {
     const stats = [
@@ -13,6 +12,15 @@ export function HeroSection() {
         {icon: Sparkles, value: "3x", label: "Daha Hızlı"},
     ];
 
+    const title = [
+        { text: "İş" },
+        { text: "Süreçlerinizi" },
+        { text: "Yapay" },
+        { text: "Zeka" },
+        { text: "ile" },
+        { text: "Dönüştürün", className: "text-primary" },
+    ];
+
     return (
         <PageHero
             id="hero"
@@ -20,19 +28,7 @@ export function HeroSection() {
                 icon: <Sparkles className="w-4 h-4"/>,
                 text: "AI-Powered Business Automation",
             }}
-            title={
-                <>
-                    <Text variant="h1" theme="default" className="mb-4">
-                        İş Süreçlerinizi
-                    </Text>
-                    <Text
-                        variant="h1"
-                        className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 dark:from-blue-400 dark:via-purple-400 dark:to-blue-500"
-                    >
-                        Yapay Zeka ile Dönüştürün
-                    </Text>
-                </>
-            }
+            title={title}
             description="Yapay zeka destekli çözümlerimizle iş süreçlerinizi otomatikleştirin, verimliliği %80 artırın ve maliyetleri düşürün"
             primaryCta={{
                 text: "Ücretsiz Demo",
@@ -42,9 +38,8 @@ export function HeroSection() {
                 text: "Hizmetlerimizi İnceleyin",
                 href: "/hizmetler",
             }}
-            backgroundVariant="gradient" // This now only controls effects like orbs/spotlight
+            backgroundVariant="gradient"
         >
-
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-16">
                 {stats.map((stat, index) => (
                     <Card
@@ -61,4 +56,3 @@ export function HeroSection() {
         </PageHero>
     );
 }
-

@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Workflow,
   FileText,
@@ -11,9 +11,15 @@ import {
   BarChart3,
   GraduationCap,
   ArrowRight,
-  Check
+  Check,
+  MousePointer2
 } from "lucide-react";
 import { Card } from "@components/ui/core/card";
+import { InteractiveCardStack } from "@components/ui/custom/interactive-card-stack";
+import { useMediaQuery } from "@hooks/use-media-query";
+import { H2, Lead, Tiny, H4 } from "@/components/ui";
+import { cn } from "@/lib/utils";
+import { Container } from "@/components/shared/container";
 
 const services = [
   {
@@ -29,7 +35,7 @@ const services = [
   },
   {
     icon: FileText,
-    category: "Doküman Dönüştürme (PDF, Görüntü, Metin)",
+    category: "Doküman Dönüştürme",
     description: "Her türlü dokümanı yapay zeka ile okunabilir ve kullanılır hale getirme.",
     features: [
       "PDF → Word, Excel, JSON dönüşümü",
@@ -40,8 +46,8 @@ const services = [
   },
   {
     icon: ScanText,
-    category: "Otomatik Veri Çıkarma (OCR & Form Tanıma)",
-    description: "Fatura, makbuz, başvuru formu, sözleşme, KYC dokümanı...",
+    category: "Otomatik Veri Çıkarma",
+    description: "Fatura, makbuz, sözleşme gibi dokümanlardan otomatik veri çıkarma.",
     features: [
       "OCR + LLM destekli veri çıkarma",
       "Tablo tespiti, alan tanıma",
@@ -54,8 +60,7 @@ const services = [
     category: "RPA + AI İş Akışları",
     description: "Klasik RPA'nın sınırlarını genişleten yapay zeka tabanlı robotlar.",
     features: [
-      "Web otomasyonu",
-      "Mail okuma & yönlendirme",
+      "Web otomasyonu ve mail okuma",
       "Excel / Google Sheet otomasyonu",
       "AI destekli karar mekanizmaları"
     ],
@@ -64,91 +69,164 @@ const services = [
   {
     icon: Bot,
     category: "Otomasyon Botları",
-    description: "7/24 çalışan dijital işçilerinizi oluşturuyoruz.",
+    description: "7/24 çalışan, hata yapmayan dijital işçilerinizi oluşturuyoruz.",
     features: [
-      "Veri toplama botları",
-      "Mesajlaşma botları",
-      "Raporlama botları",
-      "CRM güncelleyen botlar"
+      "Veri toplama ve raporlama botları",
+      "Mesajlaşma ve CRM botları",
+      "Özelleştirilmiş görev botları"
     ],
     color: "from-indigo-500 to-purple-500",
   },
   {
     icon: BarChart3,
-    category: "Otomatik Raporlama & Dashboard",
-    description: "Tüm verileri anında toplayan ve sürekli güncel dashboard'lar.",
+    category: "Otomatik Raporlama",
+    description: "Tüm verileri anında toplayan, sürekli güncel dashboard'lar.",
     features: [
       "KPI ve OKR takip sistemleri",
       "Otomatik excel/ppt/pdf raporları",
-      "Power BI — Google Data Studio entegrasyonu"
+      "Power BI & Data Studio entegrasyonu"
     ],
     color: "from-yellow-500 to-orange-500",
   },
-  {
-    icon: GraduationCap,
-    category: "AI Eğitim Modülleri",
-    description: "Kurum içi yapay zeka yetkinliklerini hızlandırmak için eğitim paketleri.",
-    features: [
-      "AI Temelleri",
-      "Prompt Engineering",
-      "İş Süreçlerinde AI",
-      "RPA & AI Entegrasyon Eğitimi",
-      "Kurumsal AI Eğitim Programı"
-    ],
-    color: "from-cyan-500 to-blue-500",
-  },
 ];
 
-export function ServicesSection() {
-  return (
-    <section className="relative py-20 bg-background/80 dark:bg-neutral-950/80 backdrop-blur-sm overflow-hidden">
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-              AI Otomasyon Hizmetleri
-            </span>
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Her iş sürecine özel yapay zeka çözümleri
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <Card
-              key={index}
-              icon={service.icon}
-              title={service.category}
-              description={service.description}
-              index={index}
-              variant="elevated"
-            >
-              <div className="space-y-2 mb-4">
-                {service.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 bg-gradient-to-r ${service.color} bg-clip-text text-transparent`} />
-                    <span className="text-sm text-muted-foreground">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              <button className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:gap-3 transition-all duration-300 group/btn">
-                Detaylı Bilgi
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-              </button>
-            </Card>
-          ))}
+const ServiceCard = ({ service, index, variant = "elevated", className, isActive }: { service: typeof services[0], index: number, variant?: "elevated" | "flat", className?: string, isActive: boolean }) => (
+  <Card
+    icon={service.icon}
+    title={service.category}
+    description={service.description}
+    index={index}
+    variant={variant}
+    className={cn("flex flex-col transition-opacity duration-300", isActive ? "opacity-100" : "opacity-80", className)}
+  >
+    <div className="space-y-3 mb-6 flex-grow">
+      {service.features.map((feature, idx) => (
+        <div key={idx} className="flex items-start gap-3">
+          <Check className={`w-4 h-4 mt-1 flex-shrink-0 bg-gradient-to-r ${service.color} bg-clip-text text-transparent`} />
+          <span className="text-sm text-muted-foreground">{feature}</span>
         </div>
+      ))}
+    </div>
+    <div className="mt-auto pt-4 border-t border-border/50 flex justify-end">
+      <a href="#" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group">
+        Detaylı Bilgi
+        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+      </a>
+    </div>
+  </Card>
+);
+
+const DesktopView = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % services.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const activeService = services[activeIndex];
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[550px]">
+      <div className="lg:col-span-4 flex flex-col justify-center">
+        {services.map((service, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveIndex(index)}
+            className={cn(
+              "text-left p-4 rounded-lg transition-all duration-300 relative",
+              activeIndex === index ? "bg-primary/10" : "hover:bg-neutral-100/50 dark:hover:bg-neutral-800/50"
+            )}
+          >
+            <AnimatePresence>
+              {activeIndex === index && (
+                <motion.div
+                  layoutId="active-service-indicator"
+                  className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                />
+              )}
+            </AnimatePresence>
+            <H4 as="h3" theme={activeIndex === index ? "primary" : "default"} className="font-semibold">
+              {service.category}
+            </H4>
+          </button>
+        ))}
       </div>
-    </section>
+      <div className="lg:col-span-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "circOut" }}
+            className="h-full"
+          >
+            <ServiceCard service={activeService} index={activeIndex} isActive={true} className="h-full" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+export function ServicesSection() {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
+  return (
+    <Container sectionBg="slate" className="py-20">
+      <div className="text-center mb-16">
+        <H2 animate className="mb-6">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+            AI Otomasyon Hizmetleri
+          </span>
+        </H2>
+        <Lead theme="muted" animate animationDelay={0.2} className="max-w-3xl mx-auto">
+          Her iş sürecine özel, uçtan uca yapay zeka çözümleri
+        </Lead>
+      </div>
+
+      {isDesktop ? (
+        <DesktopView />
+      ) : (
+        <div className="relative">
+          <InteractiveCardStack
+            items={services}
+            renderItem={(service, index, isActive) => (
+              <ServiceCard 
+                service={service} 
+                index={index} 
+                variant={isActive ? "elevated" : "flat"} 
+                className="h-full"
+                isActive={isActive}
+              />
+            )}
+            cardHeight={520}
+            cardWidth={340}
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute top-1/2 -translate-y-1/2 -right-2 sm:right-0 flex flex-col items-center pointer-events-none"
+          >
+            <motion.div
+              animate={{ y: [-10, 10, -10] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <MousePointer2 className="w-8 h-8 text-primary transform -rotate-90" />
+            </motion.div>
+            <Tiny theme="muted" className="mt-3 uppercase tracking-widest [writing-mode:vertical-rl]">
+              Kaydır
+            </Tiny>
+          </motion.div>
+        </div>
+      )}
+    </Container>
   );
 }
-

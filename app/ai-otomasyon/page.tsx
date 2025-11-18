@@ -8,58 +8,45 @@ import { CTASection } from "@components/sections/ai-otomasyon/cta-section";
 import { Brain } from "lucide-react";
 
 export default function AIPage() {
+  const title = [
+    { text: "AI" },
+    { text: "Otomasyon" },
+    { text: "ile" },
+    { text: "Süreçlerinizi" },
+    { text: "Hızlandırın," },
+    { text: "Maliyetlerinizi" },
+    { text: "Düşürün", className: "text-primary" },
+  ];
+
   return (
     <main className="relative min-h-screen">
-      {/* Content */}
       <div className="relative">
-        {/* 1) HERO SECTION */}
         <PageHero
-        badge={{
-          icon: <Brain className="w-4 h-4 text-blue-500 dark:text-blue-400" />,
-          text: "AI Otomasyon"
-        }}
-        title={
-          <>
-            <span className="text-foreground">AI Otomasyon ile </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-              Süreçlerinizi Hızlandırın
-            </span>
-            <span className="text-foreground">, Maliyetlerinizi Düşürün</span>
-          </>
-        }
-        description="Yapay zeka tabanlı otomasyon, tekrar eden görevleri ortadan kaldırır, insan hatasını azaltır ve iş süreçlerinizi ölçülebilir biçimde hızlandırır. API-tabanlı entegrasyon, AI Agent mimarisi ve veri odaklı yaklaşım ile işletmenizin tüm süreçlerini otonom hale getiriyoruz."
-        primaryCta={{
-          text: "Ücretsiz Danışmanlık",
-          href: "/iletisim"
-        }}
-        secondaryCta={{
-          text: "Demo Talebi",
-          href: "#demo"
-        }}
-        backgroundVariant="ai"
-      />
-
-      {/* 2) NEDEN AI OTOMASYON? (VALUE PROPOSITION) */}
-      <ValuePropositionSection />
-
-      {/* 3) AI OTOMASYON HİZMETLERİ */}
-      <ServicesSection />
-
-      {/* 3.5) DEPARTMANLAR İÇİN AI ÇÖZÜMLERİ */}
-      <DepartmentsGrid />
-
-      {/* 4) YAPAY ZEKA DÖNÜŞÜM YOL HARİTASI */}
-      <RoadmapSection />
-
-      {/* 5) USE CASE SENARYOLARI */}
-      <UseCasesSection />
-
-      {/* 6) CTA - DANIŞMANLIK & DEMO TALEBİ */}
-      <div id="demo">
-        <CTASection />
-      </div>
+          badge={{
+            icon: <Brain className="w-4 h-4 text-primary" />,
+            text: "AI Otomasyon"
+          }}
+          title={title}
+          description="Yapay zeka tabanlı otomasyon, tekrar eden görevleri ortadan kaldırır, insan hatasını azaltır ve iş süreçlerinizi ölçülebilir biçimde hızlandırır. API-tabanlı entegrasyon, AI Agent mimarisi ve veri odaklı yaklaşım ile işletmenizin tüm süreçlerini otonom hale getiriyoruz."
+          primaryCta={{
+            text: "Ücretsiz Danışmanlık",
+            href: "/iletisim"
+          }}
+          secondaryCta={{
+            text: "Demo Talebi",
+            href: "#demo"
+          }}
+          backgroundVariant="ai"
+        />
+        <ValuePropositionSection />
+        <ServicesSection />
+        <DepartmentsGrid />
+        <RoadmapSection />
+        <UseCasesSection />
+        <div id="demo">
+          <CTASection />
+        </div>
       </div>
     </main>
   );
 }
-

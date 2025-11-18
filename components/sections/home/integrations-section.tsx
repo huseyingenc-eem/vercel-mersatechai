@@ -97,10 +97,14 @@ export function IntegrationsSection() {
           >
             {/* Sol / Sağ blur – mobilde gizli */}
             {!isMobile && (
-              <div className="pointer-events-none">
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10 w-60 h-60 bg-secondary/40 dark:bg-black/30" />
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10 w-60 h-60 bg-secondary/40 dark:bg-black/30" />
-              </div>
+                <div className="pointer-events-none">
+                  <div
+                      className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl blur-[120px]  w-60 h-60 bg-secondary/40 dark:bg-black/30"
+                  />
+                  <div
+                      className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl blur-[120px]  w-60 h-60 bg-secondary/40 dark:bg-black/30"
+                  />
+                </div>
             )}
 
             {/* İlk Sıra - Sola Kayıyor */}
