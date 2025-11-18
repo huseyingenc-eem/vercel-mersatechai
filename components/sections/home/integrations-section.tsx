@@ -91,33 +91,17 @@ export function IntegrationsSection() {
           <div
               className={
                 isMobile
-                    ? // 📱 Mobilde container içinde kalsın, taşmasın
-                    "relative w-full"
-                    : // 🖥 Desktop'ta full width
-                    "relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"
+                    ? "relative w-full"
+                    : "relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"
               }
           >
-            {/* Sol / Sağ blur – mobilde daha küçük / istersen tamamen gizleyebilirsin */}
-            <div className="pointer-events-none">
-              {/* Sol blur */}
-              <div
-                  className={`absolute left-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10
-              ${
-                      isMobile
-                          ? "w-40 h-40 bg-secondary/60 dark:bg-black/60"
-                          : "w-80 h-80 bg-secondary dark:bg-black"
-                  }`}
-              />
-              {/* Sağ blur */}
-              <div
-                  className={`absolute right-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10
-              ${
-                      isMobile
-                          ? "w-40 h-40 bg-secondary/60 dark:bg-black/60"
-                          : "w-80 h-80 bg-secondary dark:bg-black"
-                  }`}
-              />
-            </div>
+            {/* Sol / Sağ blur – mobilde gizli */}
+            {!isMobile && (
+              <div className="pointer-events-none">
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10 w-60 h-60 bg-secondary/40 dark:bg-black/30" />
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full blur-3xl -z-10 w-60 h-60 bg-secondary/40 dark:bg-black/30" />
+              </div>
+            )}
 
             {/* İlk Sıra - Sola Kayıyor */}
             <div className="mb-6 sm:mb-8">

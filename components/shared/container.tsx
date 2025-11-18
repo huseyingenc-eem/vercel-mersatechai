@@ -32,11 +32,28 @@ export function Container({
   const generatedId = useId();
   const id = customId || generatedId;
 
-  const { register, sections } = useSectionRegistry();
+  const { register, sections, setCurrentSectionBgColor } = useSectionRegistry();
 
   useEffect(() => {
     register({ id, bgColor: sectionBg });
   }, [id, sectionBg, register]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById(id);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const navHeight = 64;
+        if (rect.top <= navHeight && rect.bottom > navHeight) {
+          setCurrentSectionBgColor(sectionBg);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [id, sectionBg, setCurrentSectionBgColor]);
 
   const currentIndex = sections.findIndex(s => s.id === id);
   const nextSection = currentIndex !== -1 && currentIndex < sections.length - 1

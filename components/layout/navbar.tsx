@@ -6,6 +6,7 @@ import { Button, MegaMenu } from "@/components/ui";
 import { Menu, X, ChevronDown, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useSectionRegistry } from "@/context/section-context";
 import { siteConfig } from "@/config/site-config";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
@@ -27,6 +28,7 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const isMobile = useIsMobile();
+  const { currentSectionBgColor } = useSectionRegistry();
 
   // --- HOOKS & EFFECTS ---
 
@@ -71,15 +73,22 @@ export function Navbar() {
   // --- UTILITY FUNCTIONS ---
 
   const getNavbarBackground = () => {
-    // Desktop menü açıksa veya mobil menü açıksa, arkaplan opak
     if (openSubmenu || isOpen) {
       return 'bg-white dark:bg-neutral-900';
     }
-    // Sayfa kaydırıldıysa, yarı saydam arkaplan
+
     if (isScrolled) {
-      return 'bg-background/80 dark:bg-black/80 backdrop-blur-md';
+      let bgColor = 'bg-background/80 dark:bg-black/80';
+      if (currentSectionBgColor === 'white') {
+        bgColor = 'bg-white/80 dark:bg-neutral-900/80';
+      } else if (currentSectionBgColor === 'slate') {
+        bgColor = 'bg-slate-50/80 dark:bg-neutral-900/80';
+      } else if (currentSectionBgColor === 'gradient') {
+        bgColor = 'bg-blue-50/80 dark:bg-blue-950/20 backdrop-blur-md';
+      }
+      return `${bgColor} backdrop-blur-md`;
     }
-    // En üstte ve menüler kapalıyken tamamen saydam
+
     return 'bg-transparent';
   };
 

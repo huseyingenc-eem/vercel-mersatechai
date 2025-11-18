@@ -12,16 +12,18 @@ interface SectionInfo {
 interface SectionContextType {
   sections: SectionInfo[];
   register: (section: SectionInfo) => void;
+  currentSectionBgColor: SectionBgColor | null;
+  setCurrentSectionBgColor: (color: SectionBgColor | null) => void;
 }
 
 const SectionContext = createContext<SectionContextType | undefined>(undefined);
 
 export const SectionProvider = ({ children }: { children: ReactNode }) => {
   const [sections, setSections] = useState<SectionInfo[]>([]);
+  const [currentSectionBgColor, setCurrentSectionBgColor] = useState<SectionBgColor | null>(null);
 
   const register = (section: SectionInfo) => {
     setSections(prev => {
-      // Zaten varsa güncelle, yoksa ekle
       if (prev.some(s => s.id === section.id)) {
         return prev.map(s => s.id === section.id ? section : s);
       }
@@ -29,7 +31,12 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const value = useMemo(() => ({ sections, register }), [sections]);
+  const value = useMemo(() => ({
+    sections,
+    register,
+    currentSectionBgColor,
+    setCurrentSectionBgColor
+  }), [sections, currentSectionBgColor]);
 
   return (
     <SectionContext.Provider value={value}>
