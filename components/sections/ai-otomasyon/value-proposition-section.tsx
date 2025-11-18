@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Zap, RefreshCw, Link2, TrendingUp } from "lucide-react";
-import { Card } from "@components/ui/card";
+import { Card } from "@components/ui/core/card";
 
 const values = [
   {

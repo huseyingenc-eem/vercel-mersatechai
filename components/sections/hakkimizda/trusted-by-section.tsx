@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { BackgroundBeams } from "@components/ui";
 
 const technologies = [
   { name: "OpenAI", logo: "🤖" },
@@ -20,7 +19,6 @@ export function TrustedBySection() {
   return (
     <section className="relative w-full py-16 overflow-hidden bg-secondary/20">
       <BackgroundBeams className="absolute inset-0 z-0 opacity-20" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

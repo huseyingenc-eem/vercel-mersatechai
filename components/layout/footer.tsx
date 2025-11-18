@@ -6,7 +6,7 @@ import { Logo } from "./logo";
 
 export function Footer() {
   return (
-    <footer className="w-full bg-white dark:bg-black border-t border-neutral-200 dark:border-neutral-800">
+    <footer className="relative w-full bg-white/20 dark:bg-black/50 backdrop-blur-sm border-t border-neutral-200 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -87,7 +87,7 @@ export function Footer() {
             © 2024 MERSA Technology. Tüm hakları saklıdır.
           </p>
           <div className="flex gap-6">
-            {["Gizlilik Politikası", "Kullanım Koşulları"].map((item) => (
+            {['Gizlilik Politikası', 'Kullanım Koşulları'].map((item) => (
               <a
                 key={item}
                 href="#"

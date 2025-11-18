@@ -2,13 +2,13 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "@components/ui/button";
+import { Button } from "@components/ui";
 import { ArrowRight, MessageSquare, Phone } from "lucide-react";
+import { Container } from "@components/shared/container";
 
 export function CTASection() {
   return (
-    <div data-section="cta" className="relative w-full py-20 bg-gradient-to-b from-background to-secondary dark:from-black dark:to-neutral-900 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Container id="contact" sectionBg="transparent" className="py-20">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -17,10 +17,6 @@ export function CTASection() {
           className="relative"
         >
           <div className="relative bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-pink-600/10 rounded-2xl sm:rounded-3xl border border-blue-500/20 p-6 sm:p-12 md:p-16 overflow-hidden">
-            {/* Animated background */}
-            <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
 
             <div className="relative z-10 text-center space-y-8">
               <motion.h2
@@ -94,7 +90,7 @@ export function CTASection() {
             </div>
           </div>
         </motion.div>
-      </div>
-    </div>
+      </Container>
+
   );
 }

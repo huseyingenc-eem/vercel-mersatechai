@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Sparkles, Check } from "lucide-react";
-import { Button } from "@components/ui/button";
+import { Button } from "@components/ui";
 
 export function CTASection() {
   return (

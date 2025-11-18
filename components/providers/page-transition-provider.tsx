@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { LoadingScreen } from "@/components/ui/loading-screen";
+import { LoadingScreen } from "@components/ui/forms/loading-screen";
 import { AnimatePresence, motion } from "framer-motion";
 
 export function PageTransitionProvider({ children }: { children: React.ReactNode }) {

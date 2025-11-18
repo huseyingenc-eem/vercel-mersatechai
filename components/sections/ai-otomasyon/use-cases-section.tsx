@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FileCheck, MessageSquare, ShoppingCart, Users as UsersIcon, BarChart } from "lucide-react";
-import { Card } from "@components/ui/card";
+import { Card } from "@components/ui/core/card";
 
 const useCases = [
   {

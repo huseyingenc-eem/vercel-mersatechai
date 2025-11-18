@@ -13,7 +13,7 @@ import {
   ArrowRight,
   Check
 } from "lucide-react";
-import { Card } from "@components/ui/card";
+import { Card } from "@components/ui/core/card";
 
 const services = [
   {

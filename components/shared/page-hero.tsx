@@ -1,12 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useId } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Button, Badge, Text, AnimatedOrbs, Spotlight } from "@/components/ui";
+import { cn } from "@/lib/utils";
+import { useSectionRegistry, SectionBgColor } from "@/context/section-context";
 
 interface PageHeroProps {
+  id?: string;
+  sectionBg?: SectionBgColor;
   badge?: {
     icon?: React.ReactNode;
     text: string;
@@ -21,11 +24,15 @@ interface PageHeroProps {
     text: string;
     href: string;
   };
-  backgroundVariant?: "default" | "ai" | "gradient" | "dots";
+  backgroundVariant?: "default" | "ai" | "gradient" | "dots" | "minimal" | "none";
+  nextSectionBg?: string;
   className?: string;
+  children?: React.ReactNode; // Stats grid vs. için
 }
 
 export function PageHero({
+  id: customId,
+  sectionBg = "transparent",
   badge,
   title,
   description,
@@ -33,159 +40,126 @@ export function PageHero({
   secondaryCta,
   backgroundVariant = "default",
   className = "",
+  children,
 }: PageHeroProps) {
+  const generatedId = useId();
+  const id = customId || generatedId;
+
+  const { register, sections } = useSectionRegistry();
+
+  useEffect(() => {
+    register({ id, bgColor: sectionBg });
+  }, [id, sectionBg, register]);
   const getBackgroundElements = () => {
+    // Background'u tamamen kapat
+    if (backgroundVariant === "none") {
+      return null;
+    }
+
     switch (backgroundVariant) {
       case "ai":
-        return (
-          <>
-            {/* Background Beams Effect */}
-            <BackgroundBeams className="absolute inset-0" />
-
-            {/* Animated Orbs - GPU Accelerated */}
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-[100px] will-change-transform"
-              style={{ transform: 'translateZ(0)' }}
-            />
-            <motion.div
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.2, 0.4, 0.2],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-l from-cyan-500 via-blue-500 to-indigo-500 rounded-full blur-[120px] will-change-transform"
-              style={{ transform: 'translateZ(0)' }}
-            />
-
-            {/* Floating Particles - Reduced for performance */}
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-blue-400 rounded-full will-change-transform"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  transform: 'translateZ(0)',
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                }}
-              />
-            ))}
-          </>
-        );
-
       case "gradient":
         return (
           <>
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 12,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full blur-[120px] opacity-30 will-change-transform"
-              style={{ transform: 'translateZ(0)' }}
-            />
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2,
-              }}
-              className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-purple-500 to-pink-500 rounded-full blur-[120px] opacity-30 will-change-transform"
-              style={{ transform: 'translateZ(0)' }}
-            />
+            {/* BackgroundBeams ve Spotlight Container'dan gelecek */}
+            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+            <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="blue" />
+            <AnimatedOrbs variant="subtle" />
+          </>
+        );
+
+      case "minimal":
+        return (
+          <>
+            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+            <AnimatedOrbs variant="minimal" />
           </>
         );
 
       case "dots":
         return (
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+          <>
+            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+          </>
         );
 
       default:
-        return null;
+        return (
+          <>
+            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+          </>
+        );
     }
   };
 
   return (
-    <section className={`relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-secondary/20 dark:from-black dark:via-black dark:to-blue-950/10 ${className}`}>
-      {getBackgroundElements()}
+    <div
+      className={cn(
+        `relative min-h-screen flex items-center justify-center overflow-hidden`,
+        className
+      )}
+    >
+      {/* Arka plan efektleri - Container'daki Beams'in üzerinde olmalı (z-0) */}
+      {backgroundVariant !== "none" && (
+        <div className="absolute inset-0 w-full h-full z-0">
+          {getBackgroundElements()}
+        </div>
+      )}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      {/* İçerik - z-10 */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 sm:py-36 md:py-40 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
+          {/* Badge */}
           {badge && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 backdrop-blur-sm mb-8"
+              className="mb-6 sm:mb-8 flex justify-center"
             >
-              {badge.icon}
-              <span className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                {badge.text}
-              </span>
+              <Badge icon={badge.icon} text={badge.text} />
             </motion.div>
           )}
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-          >
-            {typeof title === "string" ? (
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/80">
-                {title}
-              </span>
-            ) : (
-              title
-            )}
-          </motion.h1>
+          {/* Title */}
+          {typeof title === "string" ? (
+            <Text
+              variant="h1"
+              theme="default"
+              animate
+              animationDelay={0.3}
+              className="mb-4 sm:mb-6"
+            >
+              {title}
+            </Text>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mb-4 sm:mb-6"
+            >
+              {title}
+            </motion.div>
+          )}
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
+          {/* Description */}
+          <Text
+            variant="lead"
+            theme="muted"
+            animate
+            animationDelay={0.5}
+            className="max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12"
           >
             {description}
-          </motion.p>
+          </Text>
 
+          {/* CTA Buttons */}
           {(primaryCta || secondaryCta) && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -197,7 +171,7 @@ export function PageHero({
                 <Button
                   size="lg"
                   asChild
-                  className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white group text-base sm:text-lg px-8 py-6 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300"
+                  className="relative overflow-hidden bg-gradient-primary hover:opacity-90 text-primary-foreground group text-base sm:text-lg px-8 py-6 glow-primary transition-all duration-300"
                 >
                   <a href={primaryCta.href}>
                     <span className="relative z-10 flex items-center">
@@ -213,21 +187,27 @@ export function PageHero({
                   size="lg"
                   variant="outline"
                   asChild
-                  className="border-2 border-border hover:border-blue-500/50 text-foreground hover:bg-blue-500/5 text-base sm:text-lg px-8 py-6 backdrop-blur-sm transition-all duration-300"
+                  className="border-2 border-border hover:border-primary/40 text-foreground hover:bg-primary/5 text-base sm:text-lg px-8 py-6 backdrop-blur-sm transition-all duration-300"
                 >
-                  <a href={secondaryCta.href}>
-                    {secondaryCta.text}
-                  </a>
+                  <a href={secondaryCta.href}>{secondaryCta.text}</a>
                 </Button>
               )}
             </motion.div>
           )}
         </motion.div>
-      </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background dark:from-black to-transparent" />
-    </section>
+        {/* Children - Stats grid vs. için - CTA butonlarının altında */}
+        {children && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+          >
+            {children}
+          </motion.div>
+        )}
+      </div>
+    </div>
   );
 }
 

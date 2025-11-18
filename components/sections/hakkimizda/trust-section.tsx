@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Target, TrendingUp, Users } from "lucide-react";
-import { BackgroundBeams } from "@components/ui";
 
 const trustReasons = [
   {
@@ -27,7 +26,6 @@ export function TrustSection() {
   return (
     <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <BackgroundBeams className="absolute inset-0 z-0 opacity-20" />
-
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

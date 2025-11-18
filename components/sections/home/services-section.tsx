@@ -8,7 +8,8 @@ import {
   GitBranch,
   Sparkles,
 } from "lucide-react";
-import { WobbleCard } from "@components/ui/wobble-card";
+import { WobbleCard } from "@components/ui/animations/wobble-card";
+import { Container } from "@components/shared/container";
 
 const services = [
   {
@@ -39,8 +40,8 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <div data-section="services" className="relative w-full py-20 bg-background dark:bg-neutral-950 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Container id="services" sectionBg="white" className="py-20">
+        {/* ...existing code... */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -184,12 +185,6 @@ export function ServicesSection() {
             </WobbleCard>
           </motion.div>
         </div>
-
-      </div>
-
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
-    </div>
+      </Container>
   );
 }

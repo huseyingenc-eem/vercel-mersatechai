@@ -5,17 +5,13 @@ import { DepartmentsGrid } from "@components/sections/ai-otomasyon/departments-g
 import { RoadmapSection } from "@components/sections/ai-otomasyon/roadmap-section";
 import { UseCasesSection } from "@components/sections/ai-otomasyon/use-cases-section";
 import { CTASection } from "@components/sections/ai-otomasyon/cta-section";
-import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Brain } from "lucide-react";
 
 export default function AIPage() {
   return (
     <main className="relative min-h-screen">
-      {/* Background Beams - Full Page */}
-      <BackgroundBeams className="fixed inset-0 z-0" />
-
-      {/* Content - Above Beams */}
-      <div className="relative z-10">
+      {/* Content */}
+      <div className="relative">
         {/* 1) HERO SECTION */}
         <PageHero
         badge={{

@@ -5,6 +5,8 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@components/providers/theme-provider";
 import { PageTransitionProvider } from "@/components/providers/page-transition-provider";
+import { SectionProvider } from "@/context/section-context";
+import { DynamicBackground } from "@/components/shared/dynamic-background";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,13 +41,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <PageTransitionProvider>
-            <main className="min-h-screen w-full overflow-x-hidden">
-              {children}
-            </main>
-          </PageTransitionProvider>
-          <Footer />
+          <SectionProvider>
+            <DynamicBackground />
+            <Navbar />
+            <PageTransitionProvider>
+              <main className="min-h-screen w-full overflow-x-hidden">
+                {children}
+              </main>
+            </PageTransitionProvider>
+            <Footer />
+          </SectionProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Timeline } from "@components/ui/timeline";
+import { Timeline } from "@components/ui/sections/timeline";
 import { Search, Database, Cpu, TrendingUp } from "lucide-react";
 
 const roadmapData = [

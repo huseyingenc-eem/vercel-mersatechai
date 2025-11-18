@@ -482,7 +482,6 @@ export default function IletisimPage() {
 
       {/* Google Maps Section - Full Width */}
       <section className="relative w-full overflow-hidden">
-        <BackgroundBeams className="absolute inset-0 z-0 opacity-20" />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

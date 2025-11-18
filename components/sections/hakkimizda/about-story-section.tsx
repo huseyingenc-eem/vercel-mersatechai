@@ -2,13 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { BackgroundBeams } from "@components/ui";
 
 export function AboutStorySection() {
   return (
     <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <BackgroundBeams className="absolute inset-0 z-0 opacity-20" />
-
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left - Biz Kimiz */}

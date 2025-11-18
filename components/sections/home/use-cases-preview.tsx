@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Building2, Users, Megaphone, GraduationCap, Briefcase } from "lucide-react";
+import { Container } from "@components/shared/container";
 
 const useCases = [
   {
@@ -51,8 +52,7 @@ const useCases = [
 
 export function UseCasesPreview() {
   return (
-    <div data-section="usecases" className="relative w-full py-20 bg-secondary dark:bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Container id="usecases" sectionBg="slate" className="py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -131,10 +131,6 @@ export function UseCasesPreview() {
             Tüm Kullanım Senaryoları
           </a>
         </motion.div>
-      </div>
-
-      {/* Background decoration */}
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
-    </div>
+      </Container>
   );
 }
