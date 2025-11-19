@@ -8,77 +8,98 @@ import {
   Headphones,
   DollarSign,
   Package,
-  ArrowRight
+  ArrowRight,
+  Check
 } from "lucide-react";
-import { Card } from "@components/ui";
+import { ExpandableCardGrid } from "@components/ui/cards";
 
-const departments = [
+const departmentData = [
   {
     icon: TrendingUp,
     title: "Satış, Pazarlama ve Müşteri Yönetimi",
-    description: "Potansiyel müşteri takibi, e-posta kampanyaları, sosyal medya planlaması, CRM güncellemeleri, potansiyel müşteri puanlaması",
+    description: "Müşteri yönetimi ve kampanya otomasyonu.",
+    src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "from-blue-500 to-cyan-500",
     features: [
-      "Lead takibi ve puanlama",
-      "Otomatik e-posta kampanyaları",
-      "Sosyal medya yönetimi",
-      "CRM entegrasyonu",
+      "Potansiyel müşteri takibi ve puanlama",
+      "Otomatik e-posta ve sosyal medya kampanyaları",
+      "CRM sistemlerinin otomatik güncellenmesi",
+      "Pazar trend analizi ve raporlama",
     ],
   },
   {
     icon: Users,
     title: "İşe Alımdan Eğitime Tüm İnsan Kaynakları",
-    description: "Çalışanların işe alımı, belge toplama, eğitim programları",
+    description: "İşe alımdan eğitime tüm İK süreçleri.",
+    src: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "from-purple-500 to-pink-500",
     features: [
-      "Otomatik işe alım süreci",
-      "Dijital belge yönetimi",
-      "Eğitim takip sistemi",
-      "Performans değerlendirme",
+      "Aday başvuru takip sistemi (ATS) otomasyonu",
+      "Yeni çalışanlar için dijital belge toplama",
+      "Otomatik eğitim atama ve takip sistemi",
+      "Performans değerlendirme ve geri bildirim döngüleri",
     ],
   },
   {
     icon: Headphones,
     title: "Müşteri Destek Süreçlerinizi Hızlandırın",
-    description: "Bilet ataması, yanıt otomasyonu, müşteri geri bildirimi",
+    description: "Destek taleplerini hızlandırın ve çözün.",
+    src: "https://images.unsplash.com/photo-1534536281715-e28d76689b4d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "from-green-500 to-emerald-500",
     features: [
-      "Akıllı bilet yönlendirme",
-      "Otomatik yanıt sistemi",
-      "Geri bildirim analizi",
-      "7/24 destek botu",
+      "Gelen talepleri akıllı bilet sistemine yönlendirme",
+      "Sık sorulan sorular için 7/24 otomatik yanıt botu",
+      "Müşteri geri bildirimlerini duygu analizi ile raporlama",
+      "Canlı destek yoğunluğunu tahmin etme",
     ],
   },
   {
     icon: DollarSign,
     title: "Finansal Süreçlerinizi Kolaylaştırın",
-    description: "Fatura işleme, gider takibi, finansal raporlama, bordro yönetimi",
+    description: "Finansal süreçlerinizi otomatikleştirin.",
+    src: "https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "from-yellow-500 to-orange-500",
     features: [
-      "Otomatik fatura işleme",
-      "Akıllı gider takibi",
-      "Gerçek zamanlı raporlama",
-      "Bordro otomasyonu",
+      "Gelen faturaların otomatik işlenmesi ve onayı",
+      "Akıllı gider takibi ve kategori bazlı raporlama",
+      "Gerçek zamanlı finansal dashboard'lar",
+      "Bordro ve ödeme süreçlerinin otomasyonu",
     ],
   },
-  {
+    {
     icon: Package,
     title: "Envanterden Teslimata Operasyonlar",
-    description: "Envanter yönetimi, tedarik zinciri optimizasyonu, görev otomasyonu",
+    description: "Envanterden teslimata tüm operasyonlar.",
+    src: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "from-indigo-500 to-purple-500",
     features: [
-      "Akıllı stok yönetimi",
-      "Tedarik zinciri optimizasyonu",
-      "Otomatik sipariş takibi",
-      "Lojistik koordinasyonu",
+      "Akıllı stok ve envanter yönetimi",
+      "Tedarik zinciri ve talep tahmini optimizasyonu",
+      "Otomatik sipariş takibi ve müşteri bilgilendirme",
+      "Rota optimizasyonu ve lojistik koordinasyonu",
     ],
   },
 ];
 
+const cards = departmentData.map(dept => ({
+    title: dept.title,
+    description: dept.description,
+    src: dept.src,
+    content: () => (
+        <div className="space-y-4">
+            {dept.features.map((feature, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                    <Check className={`w-4 h-4 mt-1 flex-shrink-0 bg-gradient-to-r ${dept.color} bg-clip-text text-transparent`} />
+                    <span className="text-sm text-neutral-700 dark:text-neutral-300">{feature}</span>
+                </div>
+            ))}
+        </div>
+    )
+}));
+
 export function DepartmentsGrid() {
   return (
     <section className="relative py-20 bg-background/80 dark:bg-neutral-950/80 backdrop-blur-sm overflow-hidden">
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -98,34 +119,8 @@ export function DepartmentsGrid() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {departments.map((dept, index) => (
-            <Card
-              key={index}
-              icon={dept.icon}
-              title={dept.title}
-              description={dept.description}
-              index={index}
-              variant="elevated"
-            >
-              <div className="space-y-3 mb-6">
-                {dept.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${dept.color}`} />
-                    <span className="text-sm text-muted-foreground">{feature}</span>
-                  </div>
-                ))}
-              </div>
+        <ExpandableCardGrid cards={cards} />
 
-              <button className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:gap-3 transition-all duration-300 group/btn">
-                Detaylı İncele
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-              </button>
-            </Card>
-          ))}
-        </div>
-
-        {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -152,4 +147,3 @@ export function DepartmentsGrid() {
     </section>
   );
 }
-

@@ -4,6 +4,10 @@
 
 @layer base {
   :root {
+    /* Defaults for infinite scroller animation (overridden by JS when running) */
+    --animation-duration: 20s;
+    --animation-direction: normal;
+
     /* Background & Surface */
     --background: 0 0% 100%;              /* #FFFFFF - Pure white */
     --foreground: 222 47% 11%;            /* #0F172A - Slate 900 */
@@ -202,6 +206,21 @@
     background-size: 200% auto;
     animation: shimmer 2s linear infinite;
   }
+
+  /* Infinite scroller animation - used by components/ui/cards/infinite-moving-cards.tsx */
+  .scroller ul.animate-scroll {
+    animation-name: scroller-scroll;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--animation-duration, 20s);
+    animation-direction: var(--animation-direction, normal);
+    will-change: transform;
+  }
+
+  /* Make sure the scroller inner list is shown as a single strip */
+  .scroller ul {
+    transform: translateZ(0);
+  }
 }
 
 /* Keyframe animations */
@@ -211,5 +230,17 @@
   }
   100% {
     background-position: -200% 0%;
+  }
+}
+
+/* Keyframes: move the duplicated list left by 50% to create an infinite loop.
+   The component appends a duplicate of the children, so translating -50% creates
+   a seamless loop. */
+@keyframes scroller-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }

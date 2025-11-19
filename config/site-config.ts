@@ -34,76 +34,76 @@ export const siteConfig: SiteConfig = {
         main: [
             {
                 label: "Hizmetler",
-                href: "#services",
+                href: "/hizmetler",
                 children: [
                     {
                         label: "İş Süreçleri",
-                        href: "#is-surecleri",
+                        href: "/is-surecleri",
                         children: [
-                            { label: "Süreç Analizi", href: "#service-surec-analizi" },
-                            { label: "Süreç Modelleme", href: "#service-surec-modelleme" },
-                            { label: "Süreç Haritalama", href: "#service-surec-haritalama" },
+                            { label: "Süreç Analizi", href: "/service-surec-analizi" },
+                            { label: "Süreç Modelleme", href: "/service-surec-modelleme" },
+                            { label: "Süreç Haritalama", href: "/service-surec-haritalama" },
                             {
                                 label: "İş Akışı Otomasyonu (Workflow)",
-                                href: "#service-workflow-otomasyonu",
+                                href: "/service-workflow-otomasyonu",
                             },
                             {
                                 label: "Dijital Formlar & Onay Süreçleri",
-                                href: "#service-dijital-formlar-onay",
+                                href: "/service-dijital-formlar-onay",
                             },
                             {
                                 label: "Süreç Performansı ve KPI Yönetimi",
-                                href: "#service-kpi-yonetimi",
+                                href: "/service-kpi-yonetimi",
                             },
                             {
                                 label: "Uyum & Denetim Yönetimi",
-                                href: "#service-uyum-denetim-yonetimi",
+                                href: "/service-uyum-denetim-yonetimi",
                             },
-                            { label: "Risk Yönetimi", href: "#service-risk-yonetimi" },
+                            { label: "Risk Yönetimi", href: "/service-risk-yonetimi" },
                         ],
                     },
                     {
                         label: "AI Otomasyon",
-                        href: "ai-otomasyon",
+                        href: "/ai-otomasyon",
                         children: [
                             {
                                 label: "AI Süreç Otomasyonu",
-                                href: "#service-ai-surec-otomasyonu",
+                                href: "/ai-otomasyon/ai-surec-otomasyonu",
                             },
                             {
                                 label: "Doküman Dönüştürme (PDF, Görüntü, Metin)",
-                                href: "#service-dokuman-donusturme",
+                                href: "/ai-otomasyon/dokuman-donusturme",
                             },
                             {
                                 label: "Otomatik Veri Çıkarma (OCR, Form Tanıma)",
-                                href: "#service-otomatik-veri-cikarma",
+                                href: "/ai-otomasyon/otomatik-veri-cikarma",
                             },
                             {
                                 label: "RPA + AI İş Akışları",
-                                href: "#service-rpa-ai-is-akislari",
+                                href: "/ai-otomasyon/rpa-ai-is-akislari",
                             },
                             { label: "Otomasyon Botları", href: "#service-otomasyon-botlari" },
                             {
                                 label: "Otomatik Raporlama & Dashboard",
-                                href: "#service-otomatik-raporlama-dashboard",
+                                href: "/ai-otomasyon/otomatik-raporlama-dashboard",
                             },
                             {
                                 label: "AI Eğitim Modülleri",
-                                href: "#service-ai-egitim-modulleri",
+                                href: "/ai-otomasyon/-ai-egitim-modulleri",
                                 children: [
                                     { label: "AI Temelleri", href: "#service-ai-temelleri" },
                                     { label: "Prompt Engineering", href: "#service-prompt-engineering" },
                                     {
                                         label: "İş Süreçlerinde AI Kullanımı",
-                                        href: "#service-is-sureclerinde-ai-kullanimi",
+                                        href: "/service-is-sureclerinde-ai-kullanimi",
                                     },
                                     {
                                         label: "RPA ve AI Entegrasyonu",
-                                        href: "#service-rpa-ai-entegrasyonu",
+                                        href: "/service-rpa-ai-entegrasyonu",
                                     },
                                     {
                                         label: "Kurumsal AI Eğitimleri",
-                                        href: "#service-kurumsal-ai-egitimleri",
+                                        href: "/service-kurumsal-ai-egitimleri",
                                     },
                                 ],
                             },
@@ -111,7 +111,7 @@ export const siteConfig: SiteConfig = {
                     },
                 ],
             },
-            { label: "Fiyatlandırma", href: "/fiyatlandirma" },
+            // { label: "Fiyatlandırma", href: "/fiyatlandirma" },
             { label: "Hakkımızda", href: "/hakkimizda" },
             { label: "İletişim", href: "/iletisim" },
         ],
