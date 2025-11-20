@@ -29,7 +29,7 @@ export function FeaturesSection() {
   return (
     <Container
       id="features"
-      sectionBg="background" // eskiden "white" idi, tema ile senkron olsun
+      sectionBg="white"
       className="py-20"
     >
       <motion.div

@@ -3,7 +3,8 @@
 import React, { useEffect, useId } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useSectionRegistry, SectionBgColor } from '@/context/section-context';
+import { useSectionRegistry } from '@/context/section-context';
+import type { SectionBgColor } from '@/context/section-context';
 
 interface ContainerProps {
   children: React.ReactNode;

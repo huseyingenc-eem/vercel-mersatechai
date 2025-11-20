@@ -15,12 +15,12 @@ export function CTASection() {
       subDescription={ctaData.subDescription}
       primaryButton={{
         text: ctaData.primaryCta.text,
-        icon: ctaData.primaryCta.icon,
+        // icon: ctaData.primaryCta.icon,
         href: "/iletisim",
       }}
       secondaryButton={{
         text: ctaData.secondaryCta.text,
-        icon: ctaData.secondaryCta.icon,
+        // icon: ctaData.secondaryCta.icon,
         href: "https://wa.me/YOUR_PHONE_NUMBER",
       }}
       trustIndicators={ctaData.trustIndicators}

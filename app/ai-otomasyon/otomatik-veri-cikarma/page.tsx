@@ -4,7 +4,6 @@ import React from "react";
 import { PageHero } from "@components/shared/page-hero";
 import { Container } from "@components/shared/container";
 import { H2, Lead, Button } from "@components/ui";
-import { HorizontalScrollCards } from "@components/ui/sections";
 import {
   BrainCircuit,
   Table2,
@@ -225,12 +224,12 @@ export default function OtomatikVeriCikarmaPage() {
       </Container>
 
       {/* HORIZONTAL SCROLL - ANA ÖZELLİKLER */}
-      <HorizontalScrollCards
+      {/* <HorizontalScrollCards
         cards={features}
         title="Teknolojik Yetenekler"
         subtitle="OCR, LLM ve Entegrasyon ile uçtan uca çözüm. Aşağı kaydırarak keşfedin."
         className="bg-gradient-to-b from-background via-slate-50/50 dark:via-slate-900/50 to-background"
-      />
+      /> */}
 
       {/* İSTATİSTİKLER */}
       <Container sectionBg="transparent" className="py-16 md:py-20">
