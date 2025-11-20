@@ -3,6 +3,7 @@
 export type NavItem = {
     label: string;
     href: string;
+    description?: string; // Kategori açıklaması
     external?: boolean;
     children?: NavItem[]; // ALT MENÜLER (nested destekli)
 };
@@ -33,79 +34,84 @@ export const siteConfig: SiteConfig = {
     nav: {
         main: [
             {
-                label: "Hizmetler",
-                href: "/hizmetler",
+                label: "İş Süreçleri",
+                href: "/is-surecleri",
+                description: "İş süreçlerinizi analiz edin, modelleyin ve optimize edin. Dijital dönüşüm yolculuğunuzda iş akışlarınızı verimli hale getirin.",
                 children: [
+                    { label: "Süreç Analizi", href: "/is-surecleri/surec-analizi" },
+                    { label: "Süreç Modelleme", href: "/is-surecleri/surec-modelleme" },
+                    { label: "Süreç Haritalama", href: "/is-surecleri/surec-haritalama" },
                     {
-                        label: "İş Süreçleri",
-                        href: "/is-surecleri",
-                        children: [
-                            { label: "Süreç Analizi", href: "/service-surec-analizi" },
-                            { label: "Süreç Modelleme", href: "/service-surec-modelleme" },
-                            { label: "Süreç Haritalama", href: "/service-surec-haritalama" },
-                            {
-                                label: "İş Akışı Otomasyonu (Workflow)",
-                                href: "/service-workflow-otomasyonu",
-                            },
-                            {
-                                label: "Dijital Formlar & Onay Süreçleri",
-                                href: "/service-dijital-formlar-onay",
-                            },
-                            {
-                                label: "Süreç Performansı ve KPI Yönetimi",
-                                href: "/service-kpi-yonetimi",
-                            },
-                            {
-                                label: "Uyum & Denetim Yönetimi",
-                                href: "/service-uyum-denetim-yonetimi",
-                            },
-                            { label: "Risk Yönetimi", href: "/service-risk-yonetimi" },
-                        ],
+                        label: "İş Akışı Otomasyonu (Workflow)",
+                        href: "/is-surecleri/workflow-otomasyonu",
                     },
                     {
-                        label: "AI Otomasyon",
-                        href: "/ai-otomasyon",
+                        label: "Dijital Formlar & Onay Süreçleri",
+                        href: "/is-surecleri/dijital-formlar-onay",
+                    },
+                    {
+                        label: "Süreç Performansı ve KPI Yönetimi",
+                        href: "/is-surecleri/kpi-yonetimi",
+                    },
+                    {
+                        label: "Uyum & Denetim Yönetimi",
+                        href: "/is-surecleri/uyum-denetim-yonetimi",
+                    },
+                    { label: "Risk Yönetimi", href: "/is-surecleri/risk-yonetimi" },
+                ],
+            },
+            {
+                label: "AI Otomasyon",
+                href: "/ai-otomasyon",
+                description: "Yapay zeka ile iş süreçlerinizi otomatikleştirin. Doküman işleme, veri çıkarma ve akıllı botlarla verimliliği artırın.",
+                children: [
+                    {
+                        label: "AI Süreç Otomasyonu",
+                        href: "/ai-otomasyon/ai-surec-otomasyonu",
+                    },
+                    {
+                        label: "Doküman Dönüştürme",
+                        href: "/ai-otomasyon/dokuman-donusturme",
+                    },
+                    {
+                        label: "Otomatik Veri Çıkarma",
+                        href: "/ai-otomasyon/otomatik-veri-cikarma",
+                    },
+                    {
+                        label: "RPA + AI İş Akışları",
+                        href: "/ai-otomasyon/rpa-ai-is-akislari",
+                    },
+                    {
+                        label: "Otomasyon Botları",
+                        href: "/ai-otomasyon/otomasyon-botlari"
+                    },
+                    {
+                        label: "Otomatik Raporlama & Dashboard",
+                        href: "/ai-otomasyon/otomatik-raporlama-dashboard",
+                    },
+                    {
+                        label: "AI Eğitim Modülleri",
+                        href: "/ai-otomasyon/ai-egitim-modulleri",
                         children: [
                             {
-                                label: "AI Süreç Otomasyonu",
-                                href: "/ai-otomasyon/ai-surec-otomasyonu",
+                                label: "AI Temelleri",
+                                href: "/ai-otomasyon/ai-egitim-modulleri/ai-temelleri"
                             },
                             {
-                                label: "Doküman Dönüştürme (PDF, Görüntü, Metin)",
-                                href: "/ai-otomasyon/dokuman-donusturme",
+                                label: "Prompt Engineering",
+                                href: "/ai-otomasyon/ai-egitim-modulleri/prompt-engineering"
                             },
                             {
-                                label: "Otomatik Veri Çıkarma (OCR, Form Tanıma)",
-                                href: "/ai-otomasyon/otomatik-veri-cikarma",
+                                label: "İş Süreçlerinde AI Kullanımı",
+                                href: "/ai-otomasyon/ai-egitim-modulleri/is-sureclerinde-ai",
                             },
                             {
-                                label: "RPA + AI İş Akışları",
-                                href: "/ai-otomasyon/rpa-ai-is-akislari",
-                            },
-                            { label: "Otomasyon Botları", href: "#service-otomasyon-botlari" },
-                            {
-                                label: "Otomatik Raporlama & Dashboard",
-                                href: "/ai-otomasyon/otomatik-raporlama-dashboard",
+                                label: "RPA ve AI Entegrasyonu",
+                                href: "/ai-otomasyon/ai-egitim-modulleri/rpa-ai-entegrasyonu",
                             },
                             {
-                                label: "AI Eğitim Modülleri",
-                                href: "/ai-otomasyon/-ai-egitim-modulleri",
-                                children: [
-                                    { label: "AI Temelleri", href: "#service-ai-temelleri" },
-                                    { label: "Prompt Engineering", href: "#service-prompt-engineering" },
-                                    {
-                                        label: "İş Süreçlerinde AI Kullanımı",
-                                        href: "/service-is-sureclerinde-ai-kullanimi",
-                                    },
-                                    {
-                                        label: "RPA ve AI Entegrasyonu",
-                                        href: "/service-rpa-ai-entegrasyonu",
-                                    },
-                                    {
-                                        label: "Kurumsal AI Eğitimleri",
-                                        href: "/service-kurumsal-ai-egitimleri",
-                                    },
-                                ],
+                                label: "Kurumsal AI Eğitimleri",
+                                href: "/ai-otomasyon/ai-egitim-modulleri/kurumsal-ai-egitimleri",
                             },
                         ],
                     },

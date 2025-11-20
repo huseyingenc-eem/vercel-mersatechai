@@ -14,10 +14,10 @@ import {
     Lightbulb,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Container } from "@/components/shared/container";
+import { Container } from "@/components/shared";
 import { H2, Lead } from "@/components/ui";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { CardStack } from "@/components/ui/card-stack";
+import { CardStack } from "@/components/ui/cards/card-stack";
 
 const services = [
     {
@@ -172,8 +172,8 @@ const ServiceCard = ({
     service: typeof services[0],
     index: number,
     variant?: "elevated" | "flat",
-    className?: string,
     isActive?: boolean,
+    className?: string,
     href?: string
 }) => {
     const Component = href ? 'a' : 'div';
@@ -187,7 +187,6 @@ const ServiceCard = ({
             className={cn("h-full", className)}
         >
             <Component
-                {...(href ? { href } : {})}
                 className={cn(
                     "group relative overflow-hidden rounded-2xl bg-white dark:bg-neutral-900 p-6 block h-full flex flex-col",
                     "border border-neutral-200 dark:border-neutral-800",
@@ -248,21 +247,13 @@ export function ServicesSection() {
     if (!mounted) return null;
 
     return (
-        <Container className="py-24 bg-neutral-50/50 dark:bg-neutral-950/50">
+        <Container className="py-24">
             <div className="text-center mb-12 md:mb-16 px-4">
                 <H2 className="mb-4 text-3xl md:text-4xl">AI Otomasyon Hizmetleri</H2>
                 <Lead className="max-w-2xl mx-auto">
                     İş süreçlerinizi yapay zeka ile modernize edin, maliyetleri düşürün ve verimliliği artırın.
                 </Lead>
             </div>
-
-            {isMobileState ? (
-                /* MOBİL GÖRÜNÜM: Sadece CardStack, temiz ve sade */
-                <div className="flex items-center justify-center w-full py-4">
-                    <CardStack items={stackItems} />
-                </div>
-            ) : (
-                /* MASAÜSTÜ GÖRÜNÜM: Grid */
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (
                         <ServiceCard
@@ -273,7 +264,6 @@ export function ServicesSection() {
                         />
                     ))}
                 </div>
-            )}
         </Container>
     );
 }

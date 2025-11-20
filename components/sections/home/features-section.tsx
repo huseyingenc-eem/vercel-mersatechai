@@ -2,54 +2,18 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import {
-  Users,
-  Lightbulb,
-  Code,
-  Rocket,
-  HeartHandshake,
-} from "lucide-react";
-import { Container } from "@components/shared/container";
-import { Card } from "@components/ui/core/card";
-import { Text } from "@components/ui/typography/text";
-
-const steps = [
-  {
-    icon: Users,
-    title: "Sizi Dinliyoruz",
-    description:
-      "Ne istediğinizi, hangi probleminizi çözmek istediğinizi konuşuyoruz.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Fikir Üretiyoruz",
-    description:
-      "Size en uygun çözümü buluyoruz. Nasıl çalışacağını gösteriyoruz.",
-  },
-  {
-    icon: Code,
-    title: "Yapıyoruz",
-    description:
-      "Sizin için özel olarak yapay zeka botunuzu veya sisteminizi kuruyoruz.",
-  },
-  {
-    icon: Rocket,
-    title: "Başlatıyoruz",
-    description:
-      "Sisteminiz çalışmaya başlıyor. Size nasıl kullanacağınızı öğretiyoruz.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Yanınızdayız",
-    description:
-      "Her zaman yanınızdayız. Sorun olursa hemen çözüyoruz.",
-  },
-];
+import { Container } from "@components/shared";
+import { Card, Text } from "@components/ui";
+import { featuresData } from "./data";
 
 export function FeaturesSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const steps = featuresData.steps;
 
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
     const threshold = 50;
     if (info.offset.x > threshold && currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
@@ -63,7 +27,11 @@ export function FeaturesSection() {
   };
 
   return (
-    <Container id="features" sectionBg="white" className="py-20">
+    <Container
+      id="features"
+      sectionBg="background" // eskiden "white" idi, tema ile senkron olsun
+      className="py-20"
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -72,22 +40,21 @@ export function FeaturesSection() {
         className="text-center mb-16"
       >
         <Text variant="h2" theme="default" className="mb-4">
-          Nasıl Çalışıyoruz?
+          {featuresData.heading}
         </Text>
         <Text variant="lead" theme="muted" className="max-w-2xl mx-auto">
-          5 basit adımda işiniz hazır
+          {featuresData.subheading}
         </Text>
       </motion.div>
 
       {/* Main Card Container */}
-      <div className="relative p-4 sm:p-8 rounded-3xl border border-border bg-card/50 backdrop-blur-sm shadow-lg">
-
+      <div className="relative p-4 sm:p-8 rounded-3xl border border-border bg-card/50 backdrop-blur-sm card-shadow-lg">
         {/* Desktop Grid View - Hidden on mobile */}
         <div className="hidden lg:grid lg:grid-cols-5 gap-6">
           {steps.map((step, index) => (
             <div key={index} className="relative flex min-h-[250px]">
-              {/* Step Number - Sol üst köşede */}
-              <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-base shadow-lg z-20">
+              {/* Step Number */}
+              <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-primary-warm flex items-center justify-center text-white font-bold text-base shadow-lg z-20">
                 {index + 1}
               </div>
 
@@ -100,14 +67,14 @@ export function FeaturesSection() {
                 variant="default"
                 transparent={true}
                 className="w-full h-full"
-                alignment={"left"}
+                alignment="left"
               />
 
               {/* Connecting arrow */}
               {index < steps.length - 1 && (
                 <div className="absolute top-1/2 -right-3 transform -translate-y-1/2 translate-x-full z-10">
-                  <div className="w-6 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600"></div>
-                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 border-l-purple-600"></div>
+                  <div className="w-6 h-0.5 bg-gradient-primary" />
+                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-[6px] border-l-[hsl(var(--primary))]" />
                 </div>
               )}
             </div>
@@ -133,7 +100,7 @@ export function FeaturesSection() {
                   className="relative cursor-grab active:cursor-grabbing"
                 >
                   {/* Step Number */}
-                  <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-base shadow-lg z-20">
+                  <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-primary-warm flex items-center justify-center text-white font-bold text-base shadow-lg z-20">
                     {currentIndex + 1}
                   </div>
 
@@ -151,7 +118,7 @@ export function FeaturesSection() {
               </AnimatePresence>
             </div>
 
-            {/* Swipe Hint - İlk kartda göster */}
+            {/* Swipe Hint - İlk kartta göster */}
             {currentIndex === 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -174,7 +141,7 @@ export function FeaturesSection() {
                 onClick={() => goToSlide(index)}
                 className={`transition-all duration-300 rounded-full ${
                   index === currentIndex
-                    ? "w-8 h-3 bg-gradient-to-r from-blue-600 to-purple-600"
+                    ? "w-8 h-3 bg-gradient-primary"
                     : "w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
                 aria-label={`${index + 1}. adıma git`}
@@ -186,4 +153,3 @@ export function FeaturesSection() {
     </Container>
   );
 }
-

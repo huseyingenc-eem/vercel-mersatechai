@@ -49,6 +49,8 @@ export function PageHero({
     register({ id, bgColor: sectionBg });
   }, [id, sectionBg, register]);
 
+  // Temanıza uygun renkler için Spotlight fill değerini güncelledim.
+  // "white" ve temanızın ana rengi olan Turuncu (#fd8f52) kullanıldı.
   const getBackgroundElements = () => {
     if (backgroundVariant === "none") return null;
     switch (backgroundVariant) {
@@ -57,7 +59,7 @@ export function PageHero({
         return (
           <>
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-            <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="blue" />
+            <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="#fd8f52" />
             <AnimatedOrbs variant="subtle" />
           </>
         );
@@ -89,7 +91,9 @@ export function PageHero({
       return <TypewriterEffect words={words} className="mb-4 sm:mb-6" />;
     }
     return (
-      <H1 animate className="mb-4 sm:mb-6">
+      // BURADA DEĞİŞİKLİK: CSS dosyanızdaki .text-gradient sınıfını ekledim.
+      // Artık başlık, tanımladığınız primary gradient renginde görünecek.
+      <H1 animate className="mb-4 sm:mb-6 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-hover pb-1">
         {title}
       </H1>
     );
@@ -133,10 +137,13 @@ export function PageHero({
           {(primaryCta || secondaryCta) && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {primaryCta && (
+                // Button bileşeni global olarak güncellendiği için rengi otomatik alacak.
+                // EK OLARAK: "glow-primary" sınıfını ekledim, böylece butonun arkasında
+                // CSS'te tanımladığınız o güzel turuncu parlama efekti olacak.
                 <Button
                   size="lg"
                   asChild
-                  className="group"
+                  className="group glow-primary transition-all duration-300 hover:scale-105"
                 >
                   <a href={primaryCta.href}>
                     <span className="relative z-10 flex items-center">
@@ -147,10 +154,13 @@ export function PageHero({
                 </Button>
               )}
               {secondaryCta && (
+                // Outline buton da güncellenen button.tsx sayesinde hover olunca 
+                // accent (mavi-cyan) rengini alacak.
                 <Button
                   size="lg"
                   variant="outline"
                   asChild
+                  className="hover:bg-accent hover:text-accent-foreground"
                 >
                   <a href={secondaryCta.href}>{secondaryCta.text}</a>
                 </Button>

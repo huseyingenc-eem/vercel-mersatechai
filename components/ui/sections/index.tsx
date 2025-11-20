@@ -1,3 +1,5 @@
 export { StickyScroll } from "./sticky-scroll-reveal";
-export { Timeline } from "./timeline";
+export { ScrollRevealContent } from "./scroll-reveal-content";
+export { SlideCards } from "./slide-cards";
+export { HorizontalScrollContainer } from "./horizontal-scroll-container";
 

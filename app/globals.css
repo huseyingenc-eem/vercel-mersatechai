@@ -20,10 +20,12 @@
     --popover: 0 0% 100%;                 /* #FFFFFF */
     --popover-foreground: 222 47% 11%;    /* #0F172A */
 
-    /* Primary - Ocean Blue */
-    --primary: 221 83% 53%;               /* #2563EB - Blue 600 */
+    /* Primary - Brand Orange (#fd8f52) */
+    --primary: 21 98% 66%;                /* #fd8f52 - Brand Orange */
     --primary-foreground: 0 0% 100%;      /* #FFFFFF - White */
-    --primary-hover: 224 76% 48%;         /* #1D4ED8 - Blue 700 */
+    --primary-hover: 21 95% 58%;          /* Darker Orange */
+    --primary-light: 21 98% 75%;          /* Lighter Orange */
+    --primary-dark: 21 90% 50%;           /* Darkest Orange */
 
     /* Secondary - Subtle surfaces */
     --secondary: 210 40% 96%;             /* #F1F5F9 - Slate 100 */
@@ -33,8 +35,8 @@
     --muted: 214 32% 91%;                 /* #E2E8F0 - Slate 200 */
     --muted-foreground: 215 16% 47%;      /* #64748B - Slate 500 */
 
-    /* Accent - Highlights (subtle cyan) */
-    --accent: 188 94% 43%;                /* #06B6D4 - Cyan 500 */
+    /* Accent - Highlights (complementary to orange) */
+    --accent: 201 98% 66%;                /* Complementary Blue-Cyan */
     --accent-foreground: 0 0% 100%;       /* #FFFFFF */
 
     /* Destructive - Errors */
@@ -80,10 +82,12 @@
     --popover: 217 33% 17%;               /* #1E293B - Slate 800 */
     --popover-foreground: 210 40% 98%;    /* #F8FAFC - Slate 50 */
 
-    /* Primary - Lighter blue for dark mode */
-    --primary: 217 91% 60%;               /* #3B82F6 - Blue 500 */
+    /* Primary - Brand Orange for dark mode */
+    --primary: 21 98% 70%;                /* Lighter Orange for dark mode */
     --primary-foreground: 222 47% 11%;    /* #0F172A - Dark text */
-    --primary-hover: 221 83% 53%;         /* #2563EB - Blue 600 */
+    --primary-hover: 21 98% 66%;          /* #fd8f52 - Brand Orange */
+    --primary-light: 21 98% 80%;          /* Even lighter for dark mode */
+    --primary-dark: 21 95% 58%;           /* Darker Orange */
 
     /* Secondary - Elevated surface */
     --secondary: 215 25% 27%;             /* #334155 - Slate 700 */
@@ -93,8 +97,8 @@
     --muted: 215 25% 27%;                 /* #334155 - Slate 700 */
     --muted-foreground: 215 20% 65%;      /* #94A3B8 - Slate 400 */
 
-    /* Accent - Highlights */
-    --accent: 188 94% 43%;                /* #06B6D4 - Cyan 500 */
+    /* Accent - Highlights (complementary to orange) */
+    --accent: 201 98% 70%;                /* Complementary Blue-Cyan for dark mode */
     --accent-foreground: 222 47% 11%;     /* #0F172A - Dark */
 
     /* Destructive - Errors */
@@ -122,6 +126,10 @@
     --chart-3: 212 96% 78%;               /* Blue 300 */
     --chart-4: 221 83% 53%;               /* Blue 600 */
     --chart-5: 224 76% 48%;               /* Blue 700 */
+  }
+  .theme {
+    --animate-marquee: marquee var(--duration) infinite linear;
+    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   }
 }
 
@@ -158,9 +166,17 @@
     background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-hover)));
   }
 
-  /* Gradient background utility */
+  /* Gradient background utilities */
   .bg-gradient-primary {
     background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-hover)));
+  }
+
+  .bg-gradient-primary-radial {
+    background-image: radial-gradient(circle at top, hsl(var(--primary-light)), hsl(var(--primary)), hsl(var(--primary-dark)));
+  }
+
+  .bg-gradient-primary-warm {
+    background-image: linear-gradient(135deg, hsl(var(--primary-light)), hsl(var(--primary)), hsl(var(--primary-dark)));
   }
 
   /* Glass morphism utility */
@@ -242,5 +258,33 @@
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@theme inline {
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
   }
 }

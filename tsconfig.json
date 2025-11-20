@@ -5,6 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "ignoreDeprecations": "6.0",
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -18,12 +19,11 @@
         "name": "next"
       }
     ],
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@config/*": ["config/*"],
       "@components/*": ["components/*"],
-      "@context/*": ["context/*"],
       "@hooks/*": ["hooks/*"],
       "@lib/*": ["lib/*"],
     }

@@ -8,6 +8,7 @@ import { PageTransitionProvider } from "@/components/providers/page-transition-p
 import { SectionProvider } from "@/context/section-context";
 import { DynamicBackground } from "@/components/shared/dynamic-background";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -37,8 +38,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <SectionProvider>
@@ -48,8 +49,8 @@ export default function RootLayout({
               <main className="min-h-screen w-full overflow-x-hidden">
                 {children}
               </main>
+              <Footer />
             </PageTransitionProvider>
-            <Footer />
           </SectionProvider>
         </ThemeProvider>
       </body>

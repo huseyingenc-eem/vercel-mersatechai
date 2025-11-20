@@ -43,22 +43,25 @@ export function Navbar() {
   }, [isMobile]);
 
   const getNavbarBackground = () => {
+    // Menü açıkken tam opak
     if (openSubmenu || isOpen) {
       return "bg-white dark:bg-neutral-900";
     }
 
+    // Scroll edildiğinde - arka plan gözükmeyecek şekilde opak ama hafif transparan
     if (isScrolled) {
-      let bgColor = "bg-background/80 dark:bg-black/80";
+      let bgColor = "bg-background/95 dark:bg-neutral-900/95";
       if (currentSectionBgColor === "white") {
-        bgColor = "bg-white/80 dark:bg-neutral-900/80";
+        bgColor = "bg-white/95 dark:bg-neutral-900/95";
       } else if (currentSectionBgColor === "slate") {
-        bgColor = "bg-slate-50/80 dark:bg-neutral-900/80";
+        bgColor = "bg-slate-50/95 dark:bg-neutral-900/95";
       } else if (currentSectionBgColor === "gradient") {
-        bgColor = "bg-blue-50/80 dark:bg-blue-950/20 backdrop-blur-md";
+        bgColor = "bg-gradient-to-r from-background/95 to-slate-50/95 dark:from-neutral-900/95 dark:to-neutral-800/95";
       }
-      return `${bgColor} backdrop-blur-md`;
+      return `${bgColor} backdrop-blur-lg`;
     }
 
+    // Scroll 0 pozisyonunda - tamamen saydam
     return "bg-transparent";
   };
 
@@ -91,14 +94,14 @@ export function Navbar() {
           className="fixed inset-0 z-40 bg-white dark:bg-neutral-900 flex flex-col"
           style={{ top: '64px' }}
         >
-          <div className="flex-1 overflow-y-auto pb-32 px-6 py-6">
-            <div className="space-y-2">
+          <div className="flex-1 overflow-y-auto pb-32 py-6">
+            <div className="space-y-2 px-4">
               {siteConfig.nav.main.map((item) => (
                 item.children ? (
                   <button
                     key={item.label}
                     onClick={() => setOpenSubmenu(item.label)}
-                    className="w-full flex items-center justify-between py-4 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
+                    className="w-full flex items-center justify-between py-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
                   >
                     <Text variant="small" theme="default" className="font-medium">{item.label}</Text>
                     <ChevronRight className="w-5 h-5 text-primary" />
@@ -108,7 +111,7 @@ export function Navbar() {
                     key={item.label}
                     href={item.href}
                     onClick={handleLinkClick}
-                    className="w-full flex items-center justify-between py-4 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
+                    className="w-full flex items-center justify-between py-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
                   >
                     <Text variant="small" theme="default" className="font-medium">{item.label}</Text>
                   </Link>
@@ -143,12 +146,12 @@ export function Navbar() {
           className="fixed inset-0 z-40 bg-white dark:bg-neutral-900 flex flex-col"
           style={{ top: '64px' }}
         >
-          <div className="flex-1 overflow-y-auto pb-32 px-6 py-6">
-            <div className="space-y-2">
+          <div className="flex-1 overflow-y-auto pb-32 py-6">
+            <div className="space-y-2 px-4">
               <Link
                 href={selectedCategory.href || '#'}
                 onClick={handleLinkClick}
-                className="w-full flex items-center justify-between py-4 px-4 rounded-lg bg-primary/5 hover:bg-primary/10 dark:bg-primary/10 dark:hover:bg-primary/20 transition-all text-left mb-2"
+                className="w-full flex items-center justify-between py-4 rounded-lg bg-primary/5 hover:bg-primary/10 dark:bg-primary/10 dark:hover:bg-primary/20 transition-all text-left mb-2"
               >
                 <Text variant="small" theme="primary" className="font-bold">{openSubmenu}</Text>
                 <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -158,7 +161,7 @@ export function Navbar() {
                   <button
                     key={child.label}
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenNestedSubmenu(child.label); }}
-                    className="w-full flex items-center justify-between py-4 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
+                    className="w-full flex items-center justify-between py-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
                   >
                     <Text variant="small" theme="default" className="font-medium flex-1">{child.label}</Text>
                     <div className="flex items-center gap-2">
@@ -171,7 +174,7 @@ export function Navbar() {
                     key={child.label}
                     href={child.href}
                     onClick={handleLinkClick}
-                    className="w-full flex items-center justify-between py-4 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
+                    className="w-full flex items-center justify-between py-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all text-left"
                   >
                     <Text variant="small" theme="default" className="font-medium">{child.label}</Text>
                   </Link>
@@ -194,12 +197,12 @@ export function Navbar() {
           className="fixed inset-0 z-40 bg-white dark:bg-neutral-900 flex flex-col"
           style={{ top: '64px' }}
         >
-          <div className="flex-1 overflow-y-auto pb-32 px-6 py-6">
-            <div className="space-y-2">
+          <div className="flex-1 overflow-y-auto pb-32 py-6">
+            <div className="space-y-2 px-4">
               <Link
                 href={selectedSubCategory.href || '#'}
                 onClick={handleLinkClick}
-                className="w-full flex items-center justify-between py-4 px-4 rounded-lg bg-primary/5 hover:bg-primary/10 dark:bg-primary/10 dark:hover:bg-primary/20 transition-all text-left mb-2"
+                className="w-full flex items-center justify-between py-4 rounded-lg bg-primary/5 hover:bg-primary/10 dark:bg-primary/10 dark:hover:bg-primary/20 transition-all text-left mb-2"
               >
                 <Text variant="small" theme="primary" className="font-bold">{openNestedSubmenu}</Text>
                 <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -209,7 +212,7 @@ export function Navbar() {
                   key={item.label}
                   href={item.href}
                   onClick={handleLinkClick}
-                  className="block py-4 px-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all"
+                  className="block py-4 rounded-lg hover:bg-slate-100 dark:hover:bg-neutral-800 transition-all"
                 >
                   <Text variant="small" className="font-medium">{item.label}</Text>
                 </Link>
@@ -267,7 +270,7 @@ export function Navbar() {
             )}
 
             <div className="flex items-center gap-3">
-              {mounted && (
+              {/* {mounted && (
                 <motion.button
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -278,7 +281,7 @@ export function Navbar() {
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4 text-yellow-500" /> : <Moon className="w-4 h-4 text-neutral-700" />}
                 </motion.button>
-              )}
+              )} */}
               <div className="hidden sm:block">
                 <Button className="bg-gradient-primary hover:opacity-90 text-primary-foreground" size="sm">Demo İsteyin</Button>
               </div>
@@ -303,6 +306,7 @@ export function Navbar() {
                       openNestedSubmenu={openNestedSubmenu}
                       setOpenNestedSubmenu={setOpenNestedSubmenu}
                       isMobile={false}
+                      parentCategory={item}
                     />
                   );
                 }

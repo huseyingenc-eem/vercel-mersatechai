@@ -1,12 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { PageHero } from "@components/shared/page-hero";
-import { Container } from "@components/shared/container";
+import { PageHero, Container} from "@components/shared";
 import { H2, Lead, Card, Button } from "@components/ui";
-import { CardStack } from "@components/ui/card-stack";
-import { ExpandableCardGrid } from "@components/ui/cards";
-import { InfiniteMovingCards } from "@components/ui/cards/infinite-moving-cards";
+import { ExpandableCardGrid, InfiniteMovingCards, CardStack} from "@components/ui/cards";
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function AiSurecOtomasyonuPage() {
@@ -17,9 +14,6 @@ export default function AiSurecOtomasyonuPage() {
     setMounted(true);
   }, []);
 
-  // Eğer sayfa yüklenmediyse veya isMobileState undefined ise, varsayılan olarak desktop davranması veya boş dönmesi güvenlidir.
-  // Ancak karışıklığı önlemek için mounted false ise null dönebiliriz veya bir loading skeleton koyabiliriz.
-  // Şimdilik isMobile değerini mounted olduktan sonra kesinleştiriyoruz.
   const isMobile = mounted ? isMobileState : false;
 
   const problems = [

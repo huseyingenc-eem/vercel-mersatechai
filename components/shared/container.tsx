@@ -19,7 +19,7 @@ interface ContainerProps {
  * - Kök elementi <section> olarak değiştirildi.
  * - `nextSectionColor` prop'u kaldırıldı.
  * - `SectionContext` kullanarak bir sonraki bölümün rengini otomatik algılar.
- * - Katman sıralaması (z-index) düzeltildi: Renk -> Beams -> Gradient -> İçerik.
+ * - Katman sıralaması (z-index) düzeltildi: Renk -> Gradient -> İçerik.
  */
 export function Container({
   children,
@@ -55,74 +55,95 @@ export function Container({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [id, sectionBg, setCurrentSectionBgColor]);
 
-  const currentIndex = sections.findIndex(s => s.id === id);
-  const nextSection = currentIndex !== -1 && currentIndex < sections.length - 1
-    ? sections[currentIndex + 1]
-    : undefined;
+  const currentIndex = sections.findIndex((s) => s.id === id);
+  const nextSection =
+    currentIndex !== -1 && currentIndex < sections.length - 1
+      ? sections[currentIndex + 1]
+      : undefined;
   const nextSectionColor = nextSection?.bgColor;
 
-  // Section background class
+  // Section background class – tamamen tema değişkenlerine bağlı
   const getSectionBgClass = () => {
     switch (sectionBg) {
       case 'white':
-        return 'bg-white dark:bg-neutral-950';
+        // Light: beyaz, Dark: tema arkaplanı (lacivert ton senin global'den geliyor)
+        return 'bg-background';
       case 'slate':
-        return 'bg-slate-50 dark:bg-neutral-900';
+        // Daha açık yüzey – secondary surface
+        return 'bg-secondary';
       case 'gradient':
-        return 'bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-blue-950/20 dark:via-neutral-950 dark:to-purple-950/20';
+        // Turuncu + accent ile tema uyumlu gradient
+        return cn(
+          'bg-gradient-to-br',
+          'from-[hsl(var(--primary-light))] via-[hsl(var(--background))] to-[hsl(var(--accent))]'
+        );
       default:
         return 'bg-transparent';
     }
   };
 
-  // Gradient to next section
+  // Bölümler arası geçiş gradient'i – yine theme değişkenleri ile
   const getGradientClass = () => {
     if (!nextSectionColor || nextSectionColor === sectionBg) return null;
 
-    // From white/slate TO gradient/transparent
-    if ((sectionBg === 'white' || sectionBg === 'slate') && (nextSectionColor === 'gradient' || nextSectionColor === 'transparent')) {
-        return 'from-transparent via-transparent to-transparent'; // No visible gradient needed when going to transparent/gradient
+    // white/slate -> gradient/transparent: zaten alttaki gradient baskın, ekstra fade gereksiz
+    if (
+      (sectionBg === 'white' || sectionBg === 'slate') &&
+      (nextSectionColor === 'gradient' || nextSectionColor === 'transparent')
+    ) {
+      return null;
     }
 
-    // From gradient/transparent TO white/slate
-    if ((sectionBg === 'gradient' || sectionBg === 'transparent') && nextSectionColor === 'white') {
-        return 'from-transparent to-white dark:to-neutral-950';
-    }
-    if ((sectionBg === 'gradient' || sectionBg === 'transparent') && nextSectionColor === 'slate') {
-        return 'from-transparent to-slate-50 dark:to-neutral-900';
+    // gradient/transparent -> white
+    if (
+      (sectionBg === 'gradient' || sectionBg === 'transparent') &&
+      nextSectionColor === 'white'
+    ) {
+      return 'from-transparent to-[hsl(var(--background))]';
     }
 
-    // From white TO slate
+    // gradient/transparent -> slate (secondary yüzeye fade)
+    if (
+      (sectionBg === 'gradient' || sectionBg === 'transparent') &&
+      nextSectionColor === 'slate'
+    ) {
+      return 'from-transparent to-[hsl(var(--secondary))]';
+    }
+
+    // white -> slate
     if (sectionBg === 'white' && nextSectionColor === 'slate') {
-      return 'from-transparent to-slate-50 dark:from-transparent dark:to-neutral-900';
+      return 'from-transparent to-[hsl(var(--secondary))]';
     }
-    // From slate TO white
+
+    // slate -> white
     if (sectionBg === 'slate' && nextSectionColor === 'white') {
-      return 'from-transparent to-white dark:from-transparent dark:to-neutral-950';
+      return 'from-transparent to-[hsl(var(--background))]';
     }
 
     return null;
   };
 
-
   return (
-    <section className="relative w-full min-h-full overflow-hidden">
+    <section className="relative w-full min-h-full overflow-hidden" id={id}>
       {/* Katman 1: Düz Renk veya Gradient Arka Plan */}
-      <div className={cn(
-        "absolute inset-0 -z-30",
-        getSectionBgClass()
-      )} />
+      <div
+        className={cn(
+          'absolute inset-0 -z-30',
+          getSectionBgClass()
+        )}
+      />
 
-
-      {/* Katman 3: Bir sonraki bölüme yumuşak geçiş gradient'i */}
+      {/* Katman 2: Bir sonraki bölüme yumuşak geçiş gradient'i */}
       {getGradientClass() && (
-        <div className={cn(
-          "absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-b pointer-events-none -z-10",
-          getGradientClass()
-        )} />
+        <div
+          className={cn(
+            'absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-b pointer-events-none -z-10',
+            getGradientClass()
+          )}
+        />
       )}
 
-      {/* Katman 4: İçerik */}
+      {/* Katman 3: İçerik */}
       <motion.div
         initial={animate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
         whileInView={animate ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
@@ -132,7 +153,10 @@ export function Container({
           ease: 'easeOut',
         }}
         viewport={{ once: true, margin: '0px 0px -100px 0px' }}
-        className={cn('max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10', className)}
+        className={cn(
+          'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10',
+          className
+        )}
       >
         {children}
       </motion.div>

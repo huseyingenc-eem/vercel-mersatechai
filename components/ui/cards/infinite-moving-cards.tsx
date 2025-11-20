@@ -32,7 +32,6 @@ export const InfiniteMovingCards = ({
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
 
-      // Daha önce kopyalandıysa tekrar kopyalama (Duplicate kontrolü)
       if (scrollerRef.current.getAttribute("data-animated") === "true") {
         setStart(true);
         return;
@@ -84,7 +83,6 @@ export const InfiniteMovingCards = ({
       <div
           ref={containerRef}
           className={cn(
-              // Mobilde maskeleme (kenarları silik yapma) daha dar olabilir, scroller sınıfı eklendi
               "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_5%,white_95%,transparent)]",
               className
           )}
@@ -93,13 +91,12 @@ export const InfiniteMovingCards = ({
             ref={scrollerRef}
             className={cn(
                 "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
-                start && "animate-scroll", // animate-scroll sınıfı burada tetikleniyor
+                start && "animate-scroll",
                 pauseOnHover && "hover:[animation-play-state:paused]"
             )}
         >
           {items.map((item, idx) => (
               <li
-                  // Mobilde genişlik ayarı: w-[300px] (mobil) -> md:w-[450px] (desktop)
                   className="w-[300px] md:w-[450px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-zinc-200 bg-gradient-to-b from-zinc-50 to-zinc-100 px-8 py-6 dark:border-zinc-700 dark:from-zinc-900 dark:to-zinc-950"
                   key={`${item.name}-${idx}`}
               >

@@ -2,53 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ShoppingCart, Building2, Users, Megaphone, GraduationCap, Briefcase } from "lucide-react";
 import { Container } from "@components/shared/container";
-
-const useCases = [
-  {
-    icon: ShoppingCart,
-    title: "E-Ticaret",
-    problem: "Ziyaretçiler soru sorup yanıt alamıyor",
-    solution: "7/24 ürün danışmanlığı + sepet hatırlatıcısı",
-    gradient: "from-green-400 to-emerald-600"
-  },
-  {
-    icon: Building2,
-    title: "B2B Şirketler",
-    problem: "Lead'ler kaybolup gidiyor",
-    solution: "Otomatik lead toplama + CRM entegrasyonu",
-    gradient: "from-blue-400 to-cyan-600"
-  },
-  {
-    icon: Users,
-    title: "Hizmet İşletmeleri",
-    problem: "Rezervasyon takibi çok zor",
-    solution: "WhatsApp üzerinden otomatik rezervasyon",
-    gradient: "from-purple-400 to-pink-600"
-  },
-  {
-    icon: Megaphone,
-    title: "Ajanslar",
-    problem: "Çoklu müşteri takibi karmaşık",
-    solution: "Merkezi lead toplama + raporlama",
-    gradient: "from-orange-400 to-red-600"
-  },
-  {
-    icon: GraduationCap,
-    title: "Eğitim",
-    problem: "Öğrenci soruları yanıtsız kalıyor",
-    solution: "Otomatik soru-cevap + kayıt sistemi",
-    gradient: "from-indigo-400 to-purple-600"
-  },
-  {
-    icon: Briefcase,
-    title: "Profesyonel Hizmetler",
-    problem: "Randevu yönetimi manuel",
-    solution: "Akıllı randevu + hatırlatma sistemi",
-    gradient: "from-teal-400 to-green-600"
-  }
-];
+import { useCasesData } from "./data";
 
 export function UseCasesPreview() {
   return (
@@ -61,15 +16,15 @@ export function UseCasesPreview() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Sektörünüze Özel Çözümler
+            {useCasesData.heading}
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            Her sektör için özelleştirilmiş AI otomasyon çözümleri
+            {useCasesData.subheading}
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {useCases.map((useCase, index) => (
+          {useCasesData.useCases.map((useCase, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -125,10 +80,10 @@ export function UseCasesPreview() {
           className="text-center mt-12"
         >
           <a
-            href="/hizmetler"
+            href={useCasesData.ctaHref}
             className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all text-sm sm:text-base"
           >
-            Tüm Kullanım Senaryoları
+            {useCasesData.ctaText}
           </a>
         </motion.div>
       </Container>

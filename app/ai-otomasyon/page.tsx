@@ -2,7 +2,6 @@ import { PageHero } from "@/components/shared/page-hero";
 import { ValuePropositionSection } from "@components/sections/ai-otomasyon/value-proposition-section";
 import { ServicesSection } from "@components/sections/ai-otomasyon/services-catalog";
 import { DepartmentsGrid } from "@components/sections/ai-otomasyon/departments-grid";
-import { RoadmapSection } from "@components/sections/ai-otomasyon/roadmap-section";
 import { UseCasesSection } from "@components/sections/ai-otomasyon/use-cases-section";
 import { CTASection } from "@components/sections/ai-otomasyon/cta-section";
 import { Brain } from "lucide-react";
@@ -41,11 +40,8 @@ export default function AIPage() {
         <ValuePropositionSection />
         <ServicesSection />
         <DepartmentsGrid />
-        <RoadmapSection />
         <UseCasesSection />
-        <div id="demo">
-          <CTASection />
-        </div>
+        <CTASection />
       </div>
     </main>
   );
