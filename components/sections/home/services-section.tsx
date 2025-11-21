@@ -2,11 +2,16 @@
 
 import React from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Sparkles } from "lucide-react";
 import { Container } from "@components/shared";
-import { SlideCards } from "@components/ui";
 import { servicesData } from "./data";
 import type { SlideCard } from "@components/ui/sections/slide-cards";
+
+const SlideCards = dynamic(
+  () => import("@components/ui/sections/slide-cards").then((mod) => mod.SlideCards),
+  { ssr: false },
+);
 
 export function ServicesSection() {
   const { services, badge, heading, subheading } = servicesData;
