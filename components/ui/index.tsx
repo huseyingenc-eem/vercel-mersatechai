@@ -2,7 +2,7 @@ export * from "./core";
 export * from "./typography";
 export * from "./animations";
 export * from "./backgrounds";
-export * from "./sections";
+// export * from "./sections";
 export * from "./forms";
 export * from "./navigation";
 export * from "./composed";

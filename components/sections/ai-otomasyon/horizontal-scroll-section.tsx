@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 import { Container } from "@components/shared";
-import { SlideCards } from "@components/ui";
+import { SlideCards } from "@components/ui/sections/heavy";
 import { horizontalScrollData } from "../home/data";
 import type { SlideCard } from "@components/ui/sections/slide-cards";
 

@@ -1,41 +1,43 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { LoadingScreen } from "@components/ui/forms/loading-screen";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export function PageTransitionProvider({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   const pathname = usePathname();
 
+  // Sayfa değiştiğinde loading'i tekrar göster
   useEffect(() => {
     setIsLoading(true);
-
-    // Sayfanın tüm içeriği yüklenene kadar bekle
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 750); // Minimum loading süresi
-
-    return () => clearTimeout(timer);
+    setShowContent(false);
   }, [pathname]);
 
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false);
+    // Loading tamamen bittikten sonra içeriği göster
+    setTimeout(() => {
+      setShowContent(true);
+    }, 100);
+  }, []);
+
   return (
-    <AnimatePresence mode="wait">
-      {isLoading ? (
-        <LoadingScreen key="loading" />
-      ) : (
+    <>
+      {isLoading && (
+        <LoadingScreen onComplete={handleLoadingComplete} />
+      )}
+      {showContent && (
         <motion.div
-          key={pathname}
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           {children}
         </motion.div>
       )}
-    </AnimatePresence>
+    </>
   );
 }
-

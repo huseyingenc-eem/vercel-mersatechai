@@ -1,88 +1,101 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Loader2, Brain } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
-export function LoadingScreen() {
+interface LoadingScreenProps {
+  onComplete?: () => void;
+}
+
+export function LoadingScreen({ onComplete }: LoadingScreenProps) {
+  const [progress, setProgress] = useState(0);
+  const [isExiting, setIsExiting] = useState(false);
+
+  useEffect(() => {
+    // Simüle edilmiş yükleme progress'i
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        // Rastgele artış (daha doğal görünüm için)
+        const increment = Math.random() * 12 + 3;
+        return Math.min(prev + increment, 100);
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // %100 olunca çıkış animasyonu başlat
+    if (progress >= 100) {
+      const timer = setTimeout(() => {
+        setIsExiting(true);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [progress]);
+
+  useEffect(() => {
+    // Çıkış animasyonu bittikten sonra onComplete çağır
+    if (isExiting && onComplete) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 1200); // Animasyon süresi kadar bekle
+      return () => clearTimeout(timer);
+    }
+  }, [isExiting, onComplete]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background dark:bg-black">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-[120px]"
-        />
+    <div
+      className={`fixed inset-0 z-[9999] loading-screen ${
+        isExiting ? "loading-screen-exit" : ""
+      }`}
+    >
+      {/* Animated Background Glow */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="loading-pulse-bg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-[120px]" />
       </div>
 
-      {/* Loading Content */}
-      <div className="relative z-10 flex flex-col items-center gap-6">
-        {/* Animated Logo/Icon */}
-        <motion.div
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="relative"
-        >
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-2xl">
-            <Brain className="w-10 h-10 text-white" />
-          </div>
+      {/* Center Brand Text */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <h1 className="text-5xl md:text-7xl font-bold text-white/90 tracking-wider">
+          MERSA
+        </h1>
+      </div>
 
-          {/* Outer ring */}
-          <motion.div
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.5, 0, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute inset-0 rounded-full border-4 border-blue-500"
-          />
-        </motion.div>
+      {/* Bottom Right Progress */}
+      <div className="absolute bottom-8 right-8 flex flex-col items-end gap-4">
+        {/* Progress Text */}
+        <div className="flex items-baseline gap-1">
+          <span className="text-6xl md:text-8xl font-bold text-white tabular-nums">
+            {Math.round(progress)}
+          </span>
+          <span className="text-2xl md:text-3xl font-medium text-white/70">%</span>
+        </div>
 
-        {/* Loading Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-col items-center gap-2"
-        >
-          <h3 className="text-xl font-bold text-foreground">Yükleniyor...</h3>
-          <p className="text-sm text-muted-foreground">İçerik hazırlanıyor</p>
-        </motion.div>
-
-        {/* Loading Bar */}
-        <div className="w-64 h-1 bg-muted rounded-full overflow-hidden">
-          <motion.div
-            animate={{
-              x: ["-100%", "100%"],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="h-full w-1/2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
+        {/* Progress Bar */}
+        <div className="w-48 md:w-64 h-1 bg-white/20 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-white rounded-full transition-all duration-150 ease-out"
+            style={{ width: `${progress}%` }}
           />
         </div>
+
+        {/* Loading Text */}
+        <p className="text-sm text-white/60 font-medium">
+          {progress < 100 ? "Yükleniyor..." : "Hazır"}
+        </p>
+      </div>
+
+      {/* Animated Lines (decorative) */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
+        <div
+          className="h-full bg-white/40 transition-all duration-150 ease-out"
+          style={{ width: `${progress}%` }}
+        />
       </div>
     </div>
   );
 }
-

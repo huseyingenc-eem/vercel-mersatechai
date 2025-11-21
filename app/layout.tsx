@@ -26,6 +26,13 @@ export const metadata: Metadata = {
     "prompt engineering",
     "custom AI flows",
   ],
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fd8f52" },
+    { media: "(prefers-color-scheme: dark)", color: "#fd8f52" },
+  ],
+  appleWebApp: {
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export default function RootLayout({
