@@ -14,8 +14,7 @@ import {
     Lightbulb,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Container } from "@/components/shared";
-import { H2, Lead } from "@/components/ui";
+import { Container, SectionHeader } from "@/components/shared";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CardStack } from "@/components/ui/cards/card-stack";
 
@@ -248,11 +247,12 @@ export function ServicesSection() {
 
     return (
         <Container className="py-24">
-            <div className="text-center mb-12 md:mb-16 px-4">
-                <H2 className="mb-4 text-3xl md:text-4xl">AI Otomasyon Hizmetleri</H2>
-                <Lead className="max-w-2xl mx-auto">
-                    İş süreçlerinizi yapay zeka ile modernize edin, maliyetleri düşürün ve verimliliği artırın.
-                </Lead>
+            <div className="mb-12 md:mb-16 px-4">
+                <SectionHeader
+                    heading="AI Otomasyon Hizmetleri"
+                    headingHighlight="AI Otomasyon"
+                    subheading="İş süreçlerinizi yapay zeka ile modernize edin, maliyetleri düşürün ve verimliliği artırın."
+                />
             </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { PageHero, Container} from "@components/shared";
+import { PageHero, Container, ScrollActiveSimpleList } from "@components/shared";
 import { H2, Lead, Card, Button } from "@components/ui";
 import { ExpandableCardGrid, InfiniteMovingCards, CardStack} from "@components/ui/cards";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -296,17 +296,14 @@ export default function AiSurecOtomasyonuPage() {
         </Container>
 
         {/* Bölüm 5: Teknik yaklaşım */}
-        <Container sectionBg="transparent" className="py-20">
-          <div className="max-w-6xl mx-auto text-center">
-            <H2>Teknik Yaklaşımımız</H2>
-            <Lead theme="muted" className="mt-4 mb-8">Görünmeyen karmaşıklığı biz üstleniyoruz; siz sade bir deneyim yaşarsınız.</Lead>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {techBullets.map((t, idx) => (
-                  <Card key={idx} title={`Teknoloji ${idx + 1}`} description={t} index={idx} />
-              ))}
-            </div>
-          </div>
+        <Container sectionBg="transparent" className="py-0">
+          <ScrollActiveSimpleList
+            heading="Teknik Yaklaşımımız"
+            headingHighlight="Teknik"
+            subheading="Görünmeyen karmaşıklığı biz üstleniyoruz; siz sade bir deneyim yaşarsınız."
+            items={techBullets}
+            layout="single"
+          />
         </Container>
 
         {/* Infinite Moving Cards */}
@@ -317,20 +314,14 @@ export default function AiSurecOtomasyonuPage() {
         </div>
 
         {/* Bölüm 6: ROI */}
-        <Container sectionBg="slate" className="py-20">
-          <div className="max-w-4xl mx-auto text-center">
-            <H2>Yatırım Getirisi (ROI) ve İş Faydaları</H2>
-            <Lead theme="muted" className="mt-4">AI Süreç Otomasyonu iyi tasarlandığında kısa sürede geri dönen bir yatırımdır.</Lead>
-
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-              {roiBullets.map((r, idx) => (
-                  <div key={idx} className="flex items-start gap-3 bg-background/50 p-3 rounded-lg">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                    <p className="text-muted-foreground text-sm sm:text-base">{r}</p>
-                  </div>
-              ))}
-            </div>
-          </div>
+        <Container sectionBg="slate" className="py-0">
+          <ScrollActiveSimpleList
+            heading="Yatırım Getirisi (ROI) ve İş Faydaları"
+            headingHighlight="ROI"
+            subheading="AI Süreç Otomasyonu iyi tasarlandığında kısa sürede geri dönen bir yatırımdır."
+            items={roiBullets}
+            layout="single"
+          />
         </Container>
 
         {/* Bölüm 7: SSS + CTA */}

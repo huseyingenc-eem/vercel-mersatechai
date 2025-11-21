@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Sparkles } from "lucide-react";
-import { Container } from "@components/shared";
+import { Container, SectionHeader } from "@components/shared";
 import { servicesData } from "./data";
 import type { SlideCard } from "@components/ui/sections/slide-cards";
 
@@ -77,16 +77,11 @@ export function ServicesSection() {
     <section className="bg-background">
       {/* Başlık - Container ile */}
       <Container className="text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-          <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm text-primary font-medium">{badge.text}</span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-          {heading}
-        </h2>
-        <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-          {subheading}
-        </p>
+        <SectionHeader
+          badge={badge.text}
+          heading={heading}
+          subheading={subheading}
+        />
       </Container>
 
       {/* SlideCards - Container dışında, kendi ID'si ile */}

@@ -3,8 +3,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X, Sparkles, Zap, Shield, ChevronDown } from "lucide-react";
-import { BackgroundBeams, Spotlight } from "@/components/ui";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui";
+
+// Load heavy/background animation components only on client to avoid build-time errors
+const BackgroundBeams = dynamic(() => import("@/components/ui/backgrounds/background-beams").then((mod) => mod.BackgroundBeams), { ssr: false });
+const Spotlight = dynamic(() => import("@/components/ui/backgrounds/spotlight").then((mod) => mod.Spotlight), { ssr: false });
 
 const pricingPlans = [
   {

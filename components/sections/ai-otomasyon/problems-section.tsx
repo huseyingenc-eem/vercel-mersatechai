@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, Clock, Users } from "lucide-react";
+import { SectionHeader } from "@components/shared";
 
 const problems = [
   {
@@ -32,20 +33,13 @@ export function ProblemsSection() {
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Geleneksel Yaklaşımın Sorunları
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Eski sistemler organizasyonunuzu yavaşlatıyor ve verimliliğinizi düşürüyor
-          </p>
-        </motion.div>
+        <div className="mb-16">
+          <SectionHeader
+            heading="Geleneksel Yaklaşımın Sorunları"
+            headingHighlight="Sorunları"
+            subheading="Eski sistemler organizasyonunuzu yavaşlatıyor ve verimliliğinizi düşürüyor"
+          />
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {problems.map((problem, index) => (

@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Zap, Shield, Layers } from "lucide-react";
+import { SectionHeader } from "@components/shared";
 
 export function SolutionSection() {
   return (
@@ -24,32 +25,14 @@ export function SolutionSection() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-600/10 to-emerald-600/10 border border-green-500/20 backdrop-blur-sm mb-6">
-            <Sparkles className="w-4 h-4 text-green-500" />
-            <span className="text-sm font-medium text-green-600 dark:text-green-400">
-              Çözüm
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-foreground">Tüm organizasyonunuzu </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-              otomatikleştirin
-            </span>
-          </h2>
-
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            İster beğenin ister beğenmeyin, Yapay Zeka her organizasyonun her departmanında olacak.
-            <span className="text-blue-500 dark:text-blue-400 font-semibold"> AIVA Tech</span>, ekibinizin dinamik kalmasını sağlayan Yapay Zeka altyapısıdır.
-          </p>
-        </motion.div>
+        <div className="mb-16">
+          <SectionHeader
+            badge="Çözüm"
+            heading="Tüm organizasyonunuzu otomatikleştirin"
+            headingHighlight="otomatikleştirin"
+            subheading="İster beğenin ister beğenmeyin, Yapay Zeka her organizasyonun her departmanında olacak. MersaTech, ekibinizin dinamik kalmasını sağlayan Yapay Zeka altyapısıdır."
+          />
+        </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

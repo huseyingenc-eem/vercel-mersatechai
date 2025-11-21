@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { ExpandableCardGrid } from "@components/ui/cards";
+import { SectionHeader } from "@components/shared";
 import { departmentCardsData } from "./data";
 
 const cards = departmentCardsData.map((dept) => ({
@@ -29,23 +30,13 @@ export function DepartmentsGrid() {
     <section className="relative py-20 bg-background/80 backdrop-blur-sm overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Başlık */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Her Departman için{" "}
-            <span className="text-gradient">
-              AI Çözümleri
-            </span>
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Organizasyonunuzun her köşesinde yapay zeka ile verimliliği artırın
-          </p>
-        </motion.div>
+        <div className="mb-16">
+          <SectionHeader
+            heading="Her Departman için AI Çözümleri"
+            headingHighlight="AI Çözümleri"
+            subheading="Organizasyonunuzun her köşesinde yapay zeka ile verimliliği artırın"
+          />
+        </div>
 
         {/* Kart Grid */}
         <ExpandableCardGrid cards={cards} />

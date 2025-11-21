@@ -3,8 +3,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Target, TrendingUp, Users } from "lucide-react";
-import { H2, Text } from "@components/ui";
-import { Container } from "@/components/shared";
+import { Text } from "@components/ui";
+import { Container, SectionHeader } from "@/components/shared";
 
 const trustReasons = [
   {
@@ -27,20 +27,13 @@ const trustReasons = [
 export function TrustSection() {
   return (
     <Container className="py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-center mb-16"
-      >
-        <H2 className="mb-4">
-          Neden İşletmeler Bize <span className="text-primary">Güveniyor?</span>
-        </H2>
-        <Text theme="muted" className="max-w-2xl mx-auto text-lg">
-          Gerçek sonuçlar üreten, şeffaf ve samimi yaklaşımımız
-        </Text>
-      </motion.div>
+      <div className="mb-16">
+        <SectionHeader
+          heading="Neden İşletmeler Bize Güveniyor?"
+          headingHighlight="Güveniyor?"
+          subheading="Gerçek sonuçlar üreten, şeffaf ve samimi yaklaşımımız"
+        />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         {trustReasons.map((reason, index) => (

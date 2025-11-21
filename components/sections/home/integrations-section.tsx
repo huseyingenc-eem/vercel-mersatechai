@@ -2,9 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import { InfiniteScroll } from "@components/ui/backgrounds/infinite-scroll";
-import { Container } from "@components/shared/container";
+import { Container, SectionHeader } from "@components/shared";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { integrationsData } from "./data";
 
@@ -18,27 +17,13 @@ export function IntegrationsSection() {
     <Container id="integrations" sectionBg="white" className="">
       <div className="relative">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/25 mb-6">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-primary">
-              {integrationsData.badge.text}
-            </span>
-          </div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            {integrationsData.heading}
-          </h2>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            {integrationsData.subheading}
-          </p>
-        </motion.div>
+        <div className="mb-16">
+          <SectionHeader
+            badge={integrationsData.badge.text}
+            heading={integrationsData.heading}
+            subheading={integrationsData.subheading}
+          />
+        </div>
 
         {/* Full-width Scroll Container */}
         <div

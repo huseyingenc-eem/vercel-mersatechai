@@ -7,3 +7,11 @@ export type {
   TrustIndicator,
   CTAVariant,
 } from "./cta-section";
+export { ScrollActiveList, ScrollActiveSimpleList } from "./scroll-active-list";
+export type {
+  ScrollActiveListProps,
+  ScrollActiveSimpleListProps,
+  ScrollActiveItem,
+} from "./scroll-active-list";
+export { SectionHeader } from "./section-header";
+export type { SectionHeaderProps } from "./section-header";
