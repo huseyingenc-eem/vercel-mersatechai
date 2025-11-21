@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
-import { Mail, Phone, MapPin, ArrowRight, Clock, Shield, Headphones } from "lucide-react";
+import React, { useRef } from "react";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { SiWhatsapp, SiLinkedin, SiInstagram } from "react-icons/si";
 import { Logo } from "./logo";
+import { Container } from "@/components/shared/container";
 import { cn } from "@/lib/utils";
+import { useGsapFadeIn, useGsapStagger } from "@/hooks/use-gsap-animation";
 
-// Footer link verileri
 const quickLinks = [
   { name: "Ana Sayfa", href: "/" },
   { name: "Hizmetler", href: "/hizmetler" },
@@ -42,27 +43,21 @@ const legalLinks = [
   { name: "KVKK", href: "/kvkk" },
 ];
 
-// Avantajlar
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const staggerRef = useGsapStagger<HTMLDivElement>(".gsap-footer-col", { y: 40, once: false, toggleActions: "play reset play reset", start: "top 95%" });
+  const bottomBarRef = useGsapFadeIn<HTMLDivElement>({ once: false, toggleActions: "play reset play reset", start: "top 98%" });
 
   return (
-    <footer className="relative w-full bg-card border-t border-border">
-      {/* Ana Footer İçeriği */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-
-
-        {/* Link Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
+    <footer className="relative w-full bg-card border-t border-border overflow-hidden">
+      <Container animate={false} className="py-12 lg:py-16">
+        <div ref={staggerRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Şirket Bilgisi */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-1 space-y-4">
+          <div className="gsap-footer-col col-span-2 md:col-span-3 lg:col-span-1 space-y-4">
             <Logo />
             <p className="text-muted-foreground text-sm leading-relaxed">
               Yapay zeka destekli chatbot ve otomasyon çözümleri ile işletmenizi geleceğe taşıyoruz.
             </p>
-
-            {/* Sosyal Medya */}
             <div className="flex gap-3 pt-2">
               {socialLinks.map((social) => (
                 <a
@@ -84,7 +79,7 @@ export function Footer() {
           </div>
 
           {/* Hızlı Bağlantılar */}
-          <div>
+          <div className="gsap-footer-col">
             <h3 className="text-foreground font-semibold mb-4">Sayfalar</h3>
             <ul className="space-y-2.5">
               {quickLinks.map((item) => (
@@ -102,7 +97,7 @@ export function Footer() {
           </div>
 
           {/* Hizmetler */}
-          <div>
+          <div className="gsap-footer-col">
             <h3 className="text-foreground font-semibold mb-4">Hizmetler</h3>
             <ul className="space-y-2.5">
               {serviceLinks.map((item) => (
@@ -120,7 +115,7 @@ export function Footer() {
           </div>
 
           {/* AI Otomasyon */}
-          <div>
+          <div className="gsap-footer-col">
             <h3 className="text-foreground font-semibold mb-4">AI Otomasyon</h3>
             <ul className="space-y-2.5">
               {aiOtomasyonLinks.map((item) => (
@@ -138,7 +133,7 @@ export function Footer() {
           </div>
 
           {/* İletişim */}
-          <div>
+          <div className="gsap-footer-col">
             <h3 className="text-foreground font-semibold mb-4">İletişim</h3>
             <ul className="space-y-3">
               <li>
@@ -177,18 +172,15 @@ export function Footer() {
             </ul>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Alt Bar */}
-      <div className="border-t border-border bg-muted/30">
+      <div ref={bottomBarRef} className="border-t border-border bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            {/* Copyright */}
             <p className="text-muted-foreground text-sm text-center md:text-left">
               © {currentYear} MERSA Technology. Tüm hakları saklıdır.
             </p>
-
-            {/* Legal Links */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               {legalLinks.map((item) => (
                 <a

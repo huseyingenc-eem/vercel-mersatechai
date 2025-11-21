@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { AnimationWrapper } from '../animations/AnimationWrapper';
 
 // Text variant tipleri
 type TextVariant =
@@ -35,6 +35,8 @@ type ResponsiveSize = {
   desktop?: string;
 };
 
+type AnimationType = 'fadeIn' | 'reveal';
+
 interface TextProps {
   children: React.ReactNode;
   variant?: TextVariant;
@@ -42,6 +44,7 @@ interface TextProps {
   className?: string;
   animate?: boolean;
   animationDelay?: number;
+  animationType?: AnimationType;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
   responsive?: ResponsiveSize;
 }
@@ -57,6 +60,7 @@ export function Text({
   className = '',
   animate = false,
   animationDelay = 0,
+  animationType,
   as,
   responsive,
 }: TextProps) {
@@ -123,30 +127,23 @@ export function Text({
     getResponsiveClasses(),
     className
   );
+  
+  const element = React.createElement(Component, { className: combinedClasses }, children);
 
-  // Animasyonlu versiyon
-  if (animate) {
-    const MotionComponent = motion[Component as keyof typeof motion] as React.ComponentType<HTMLMotionProps<any>>;
+  const finalAnimationType = animationType || (animate ? 'fadeIn' : undefined);
 
+  if (finalAnimationType) {
     return (
-      <MotionComponent
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{
-          duration: 0.6,
-          delay: animationDelay,
-          ease: 'easeOut',
-        }}
-        className={combinedClasses}
+      <AnimationWrapper
+        animationType={finalAnimationType}
+        animationOptions={{ delay: animationDelay }}
       >
-        {children}
-      </MotionComponent>
+        {element}
+      </AnimationWrapper>
     );
   }
 
-  // Animasyonsuz versiyon
-  return React.createElement(Component, { className: combinedClasses }, children);
+  return element;
 }
 
 // Convenience exports - Kolay kullanım için

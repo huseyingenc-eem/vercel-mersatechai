@@ -76,7 +76,7 @@ export function ServicesSection() {
   return (
     <section className="bg-background">
       {/* Başlık - Container ile */}
-      <Container className="text-center">
+      <Container className="text-center py-16 md:py-20 lg:py-24">
         <SectionHeader
           badge={badge.text}
           heading={heading}

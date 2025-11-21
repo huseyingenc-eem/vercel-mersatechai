@@ -1,27 +1,20 @@
 'use client';
 
 import React, { useEffect, useId } from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useSectionRegistry } from '@/context/section-context';
 import type { SectionBgColor } from '@/context/section-context';
+import { useGsapFadeIn } from '@/hooks/use-gsap-animation';
 
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
-  id?: string; // Allow custom ID
+  id?: string;
   animate?: boolean;
   delay?: number;
   sectionBg?: SectionBgColor;
 }
 
-/**
- * Animasyonlu ve otomatik geçişli Section Container
- * - Kök elementi <section> olarak değiştirildi.
- * - `nextSectionColor` prop'u kaldırıldı.
- * - `SectionContext` kullanarak bir sonraki bölümün rengini otomatik algılar.
- * - Katman sıralaması (z-index) düzeltildi: Renk -> Gradient -> İçerik.
- */
 export function Container({
   children,
   className = '',
@@ -34,6 +27,7 @@ export function Container({
   const id = customId || generatedId;
 
   const { register, sections, setCurrentSectionBgColor } = useSectionRegistry();
+  const animationRef = useGsapFadeIn<HTMLDivElement>({ delay, y: 30, once: true, start: "top 90%" });
 
   useEffect(() => {
     register({ id, bgColor: sectionBg });
@@ -63,17 +57,13 @@ export function Container({
       : undefined;
   const nextSectionColor = nextSection?.bgColor;
 
-  // Section background class – tamamen tema değişkenlerine bağlı
   const getSectionBgClass = () => {
     switch (sectionBg) {
       case 'white':
-        // Light: beyaz, Dark: tema arkaplanı (lacivert ton senin global'den geliyor)
         return 'bg-background';
       case 'slate':
-        // Daha açık yüzey – secondary surface
         return 'bg-secondary';
       case 'gradient':
-        // Turuncu + accent ile tema uyumlu gradient
         return cn(
           'bg-gradient-to-br',
           'from-[hsl(var(--primary-light))] via-[hsl(var(--background))] to-[hsl(var(--accent))]'
@@ -83,11 +73,9 @@ export function Container({
     }
   };
 
-  // Bölümler arası geçiş gradient'i – yine theme değişkenleri ile
   const getGradientClass = () => {
     if (!nextSectionColor || nextSectionColor === sectionBg) return null;
 
-    // white/slate -> gradient/transparent: zaten alttaki gradient baskın, ekstra fade gereksiz
     if (
       (sectionBg === 'white' || sectionBg === 'slate') &&
       (nextSectionColor === 'gradient' || nextSectionColor === 'transparent')
@@ -95,7 +83,6 @@ export function Container({
       return null;
     }
 
-    // gradient/transparent -> white
     if (
       (sectionBg === 'gradient' || sectionBg === 'transparent') &&
       nextSectionColor === 'white'
@@ -103,7 +90,6 @@ export function Container({
       return 'from-transparent to-[hsl(var(--background))]';
     }
 
-    // gradient/transparent -> slate (secondary yüzeye fade)
     if (
       (sectionBg === 'gradient' || sectionBg === 'transparent') &&
       nextSectionColor === 'slate'
@@ -111,12 +97,10 @@ export function Container({
       return 'from-transparent to-[hsl(var(--secondary))]';
     }
 
-    // white -> slate
     if (sectionBg === 'white' && nextSectionColor === 'slate') {
       return 'from-transparent to-[hsl(var(--secondary))]';
     }
 
-    // slate -> white
     if (sectionBg === 'slate' && nextSectionColor === 'white') {
       return 'from-transparent to-[hsl(var(--background))]';
     }
@@ -126,7 +110,6 @@ export function Container({
 
   return (
     <section className="relative w-full min-h-full overflow-hidden" id={id}>
-      {/* Katman 1: Düz Renk veya Gradient Arka Plan */}
       <div
         className={cn(
           'absolute inset-0 -z-30',
@@ -134,7 +117,6 @@ export function Container({
         )}
       />
 
-      {/* Katman 2: Bir sonraki bölüme yumuşak geçiş gradient'i */}
       {getGradientClass() && (
         <div
           className={cn(
@@ -144,23 +126,15 @@ export function Container({
         />
       )}
 
-      {/* Katman 3: İçerik */}
-      <motion.div
-        initial={animate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-        whileInView={animate ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.6,
-          delay: delay,
-          ease: 'easeOut',
-        }}
-        viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+      <div
+        ref={animate ? animationRef : undefined}
         className={cn(
           'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10',
           className
         )}
       >
         {children}
-      </motion.div>
+      </div>
     </section>
   );
 }

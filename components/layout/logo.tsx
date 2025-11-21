@@ -22,14 +22,14 @@ export function Logo({ className = "", showBackButton = false, onBackClick }: Lo
           <ChevronLeft className="w-6 h-6 text-primary-foreground" />
         </button>
 
-        <div className="flex flex-col">
-          <span className="text-xl font-bold text-foreground">
+        <Link href="/" className="flex flex-col group">
+          <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
             MERSA
           </span>
           <span className="text-[10px] -mt-1 text-slate-700 font-medium tracking-wider">
             TECHNOLOGY
           </span>
-        </div>
+        </Link>
       </div>
     );
   }

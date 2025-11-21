@@ -1,12 +1,17 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Button } from "@components/ui";
+import React, { useRef, useEffect } from "react";
+import { Button } from "@/components/ui";
 import { ArrowRight, LucideIcon } from "lucide-react";
-import { Container } from "@components/shared";
+import { Container } from "@/components/shared";
 import { cn } from "@/lib/utils";
 import { Phone, MessageSquare } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGsapParallax } from "@/hooks/use-gsap-animation";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const ctaIconMap = {
   phone: Phone,
   message: MessageSquare,
@@ -29,34 +34,15 @@ export interface TrustIndicator {
 export type CTAVariant = "default" | "minimal" | "gradient" | "compact" | "footer-above";
 
 export interface CTASectionProps {
-  /** Variant/mod seçimi */
   variant?: CTAVariant;
-
-  /** Ana başlık */
   heading: string;
-
-  /** Açıklama metni */
   description: string;
-
-  /** Alt açıklama (opsiyonel) */
   subDescription?: string;
-
-  /** Birincil buton */
   primaryButton?: CTAButton;
-
-  /** İkincil buton (opsiyonel) */
   secondaryButton?: CTAButton;
-
-  /** Güven göstergeleri (opsiyonel) */
   trustIndicators?: TrustIndicator[];
-
-  /** Container ID (opsiyonel) */
   id?: string;
-
-  /** Ek CSS sınıfları */
   className?: string;
-
-  /** Container padding kontrolü */
   containerPadding?: string;
 }
 
@@ -115,6 +101,32 @@ export function CTASection({
 }: CTASectionProps) {
   const styles = variantStyles[variant];
   const isGradientVariant = variant === "gradient";
+  const sectionRef = useGsapParallax<HTMLDivElement>({ y: -50, speed: 1.2 });
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return;
+
+    const ctx = gsap.context(() => {
+      // Staggered Entrance Animation
+      timelineRef.current = gsap.timeline({
+        scrollTrigger: {
+          trigger: element,
+          start: "top 80%",
+          once: true,
+        },
+      });
+
+      timelineRef.current
+        .from(".gsap-cta-heading", { opacity: 0, y: 20, duration: 0.5 })
+        .from(".gsap-cta-description", { opacity: 0, y: 20, duration: 0.5 }, "-=0.3")
+        .from(".gsap-cta-buttons", { opacity: 0, y: 20, duration: 0.5 }, "-=0.3")
+        .from(".gsap-cta-trust", { opacity: 0, duration: 0.5 }, "-=0.2");
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [sectionRef]);
 
   const renderButton = (button: CTAButton, isPrimary: boolean) => {
     const ButtonIcon = button.icon ? ctaIconMap[button.icon] : null;
@@ -138,44 +150,23 @@ export function CTASection({
 
     if (button.href) {
       return (
-        <Button
-          size="lg"
-          variant={buttonVariant as any}
-          className={buttonClasses}
-          asChild
-        >
+        <Button size="lg" variant={buttonVariant as any} className={buttonClasses} asChild>
           <a href={button.href}>{content}</a>
         </Button>
       );
     }
 
     return (
-      <Button
-        size="lg"
-        variant={buttonVariant as any}
-        className={buttonClasses}
-        onClick={button.onClick}
-      >
+      <Button size="lg" variant={buttonVariant as any} className={buttonClasses} onClick={button.onClick}>
         {content}
       </Button>
     );
   };
 
   return (
-    <Container
-      id={id}
-      sectionBg="transparent"
-      className={cn(containerPadding || styles.container, className)}
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="relative"
-      >
+    <Container id={id} sectionBg="transparent" className={cn(containerPadding || styles.container, className)} animate={false}>
+      <div ref={sectionRef} className="relative">
         <div className={cn("relative overflow-hidden", styles.background, styles.padding)}>
-          {/* Background decorative elements for gradient variant */}
           {isGradientVariant && (
             <>
               <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
@@ -184,28 +175,20 @@ export function CTASection({
           )}
 
           <div className="relative z-10 text-center space-y-8">
-            {/* Heading */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
+            <h2
               className={cn(
+                "gsap-cta-heading",
                 styles.titleSize,
                 "font-bold",
                 isGradientVariant ? "text-white" : "text-foreground"
               )}
             >
               {heading}
-            </motion.h2>
+            </h2>
 
-            {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
+            <div
               className={cn(
+                "gsap-cta-description",
                 styles.descSize,
                 "max-w-3xl mx-auto leading-relaxed px-4",
                 isGradientVariant ? "text-white/90" : "text-foreground/80"
@@ -220,45 +203,25 @@ export function CTASection({
                   </span>
                 </>
               )}
-            </motion.div>
+            </div>
 
-            {/* Buttons */}
             {(primaryButton || secondaryButton) && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
-              >
+              <div className="gsap-cta-buttons flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
                 {primaryButton && renderButton(primaryButton, true)}
                 {secondaryButton && renderButton(secondaryButton, false)}
-              </motion.div>
+              </div>
             )}
 
-            {/* Trust Indicators */}
             {trustIndicators && trustIndicators.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                viewport={{ once: true }}
-                className="pt-6 sm:pt-8 flex flex-wrap justify-center gap-4 sm:gap-8 text-sm sm:text-base px-4"
-              >
+              <div className="gsap-cta-trust pt-6 sm:pt-8 flex flex-wrap justify-center gap-4 sm:gap-8 text-sm sm:text-base px-4">
                 {trustIndicators.map((indicator, index) => {
                   const IndicatorIcon = indicator.icon;
                   return (
                     <div key={index} className="flex items-center gap-2">
                       {IndicatorIcon ? (
-                        <IndicatorIcon className={cn(
-                          "w-4 h-4",
-                          isGradientVariant ? "text-white/80" : "text-success"
-                        )} />
+                        <IndicatorIcon className={cn("w-4 h-4", isGradientVariant ? "text-white/80" : "text-success")} />
                       ) : (
-                        <div className={cn(
-                          "w-2 h-2 rounded-full",
-                          isGradientVariant ? "bg-white/80" : "bg-success"
-                        )} />
+                        <div className={cn("w-2 h-2 rounded-full", isGradientVariant ? "bg-white/80" : "bg-success")} />
                       )}
                       <span className={isGradientVariant ? "text-white/80" : "text-muted-foreground"}>
                         {indicator.text}
@@ -266,11 +229,11 @@ export function CTASection({
                     </div>
                   );
                 })}
-              </motion.div>
+              </div>
             )}
           </div>
         </div>
-      </motion.div>
+      </div>
     </Container>
   );
 }

@@ -3,7 +3,7 @@
 import React from "react";
 import { Sparkles, Zap, Users } from "lucide-react";
 import { Card } from "@/components/ui";
-import { SectionHeader } from "@/components/shared";
+import { SectionHeader } from "@/components/shared/section-header";
 
 const coreValues = [
   {
