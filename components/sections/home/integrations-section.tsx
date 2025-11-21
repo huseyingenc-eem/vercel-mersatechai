@@ -15,7 +15,7 @@ export function IntegrationsSection() {
   const secondRow = integrations.slice(8, 16);
 
   return (
-    <Container id="integrations" sectionBg="slate" className="py-20">
+    <Container id="integrations" sectionBg="white" className="">
       <div className="relative">
         {/* Header */}
         <motion.div

@@ -1,155 +1,139 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { Container } from "@components/shared";
-import { Card, Text } from "@components/ui";
+import { motion } from "framer-motion";
+import { Text, Card } from "@components/ui";
 import { featuresData } from "./data";
+import { HorizontalScrollContainer } from "@components/ui/sections/horizontal-scroll-container";
 
 export function FeaturesSection() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const steps = featuresData.steps;
 
-  const handleDragEnd = (
-    event: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
-  ) => {
-    const threshold = 50;
-    if (info.offset.x > threshold && currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    } else if (info.offset.x < -threshold && currentIndex < steps.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
+  // Header için bir ekran genişliği var, sonra kartlar
+  // Aktif index: header geçtikten sonra hangi kart ortada
+  const headerWeight = 0.15; // Header için progress payı
+  const cardsProgress = Math.max(0, scrollProgress - headerWeight) / (1 - headerWeight);
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
+  // Her kart için eşit pay
+  const stepSize = 1 / steps.length;
+  const activeIndex = Math.min(
+    Math.floor(cardsProgress / stepSize + 0.5), // 0.5 ekleyerek ortada olunca aktif et
+    steps.length - 1
+  );
 
   return (
-    <Container
+    <section
       id="features"
-      sectionBg="white"
-      className="py-20"
+      className="relative bg-gradient-to-br from-muted/50 via-background to-primary/5"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="text-center mb-16"
+      <HorizontalScrollContainer
+        onScrollUpdate={setScrollProgress}
+        pinned={true}
+        scrollMultiplier={0.5}
+        className="h-[90vh]"
       >
-        <Text variant="h2" theme="default" className="mb-4">
-          {featuresData.heading}
-        </Text>
-        <Text variant="lead" theme="muted" className="max-w-2xl mx-auto">
-          {featuresData.subheading}
-        </Text>
-      </motion.div>
+        {/* Header Card - İlk ekran */}
+        <div className="flex-shrink-0 w-screen h-full flex items-center justify-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center max-w-2xl"
+          >
+            <Text variant="h2" theme="default" className="mb-4">
+              {featuresData.heading}
+            </Text>
+            <Text variant="lead" theme="muted">
+              {featuresData.subheading}
+            </Text>
+            <div className="mt-6 flex items-center justify-center gap-2 text-muted-foreground">
+              <span className="text-sm">Kaydırmaya devam edin</span>
+              <motion.div
+                animate={{ x: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                →
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
 
-      {/* Main Card Container */}
-      <div className="relative p-4 sm:p-8 rounded-3xl border border-border bg-card/50 backdrop-blur-sm card-shadow-lg">
-        {/* Desktop Grid View - Hidden on mobile */}
-        <div className="hidden lg:grid lg:grid-cols-5 gap-6">
-          {steps.map((step, index) => (
-            <div key={index} className="relative flex min-h-[250px]">
-              {/* Step Number */}
-              <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-primary-warm flex items-center justify-center text-white font-bold text-base shadow-lg z-20">
-                {index + 1}
+        {/* Ana Kart - İçinde step kartlar ve progress bar */}
+        <div className="flex-shrink-0 h-full flex items-center px-6">
+          <div className="bg-card/90 backdrop-blur-md rounded-2xl border border-border/50 shadow-xl p-4 md:p-6">
+            {/* Step Kartlar */}
+            <div className="flex items-stretch gap-3 md:gap-4">
+              {steps.map((step, index) => {
+                const isStepActive = index === activeIndex && cardsProgress > 0;
+
+                return (
+                  <div
+                    key={index}
+                    className={`flex-shrink-0 w-[65vw] sm:w-[45vw] md:w-[30vw] lg:w-[240px] rounded-xl transition-all duration-500 ${
+                      isStepActive
+                        ? "bg-primary/15 scale-100"
+                        : "bg-transparent scale-[0.97] opacity-50"
+                    }`}
+                  >
+                    <Card
+                      icon={step.icon}
+                      title={step.title}
+                      description={step.description}
+                      index={index}
+                      variant="default"
+                      className="w-full h-full min-h-[180px]"
+                      alignment="left"
+                      transparent={true}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mt-4 relative">
+              <div className="relative h-2 bg-muted rounded-full overflow-hidden">
+                <motion.div
+                  className="absolute left-0 top-0 h-full bg-gradient-primary-warm rounded-full transition-all duration-300"
+                  style={{
+                    width: `${Math.min(cardsProgress * 100, 100)}%`
+                  }}
+                />
               </div>
 
-              {/* Card Component - Saydam */}
-              <Card
-                icon={step.icon}
-                title={step.title}
-                description={step.description}
-                index={index}
-                variant="default"
-                transparent={true}
-                className="w-full h-full"
-                alignment="left"
-              />
+              {/* Step Numbers */}
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between">
+                {steps.map((_, index) => {
+                  // Her step için pozisyon hesapla
+                  const stepCenter = (index + 0.5) * stepSize;
+                  const isLit = cardsProgress >= stepCenter - 0.1;
+                  const isCurrentStep = index === activeIndex && cardsProgress > 0;
 
-              {/* Connecting arrow */}
-              {index < steps.length - 1 && (
-                <div className="absolute top-1/2 -right-3 transform -translate-y-1/2 translate-x-full z-10">
-                  <div className="w-6 h-0.5 bg-gradient-primary" />
-                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-[6px] border-l-[hsl(var(--primary))]" />
-                </div>
-              )}
+                  return (
+                    <div
+                      key={index}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 ${
+                        isCurrentStep
+                          ? "bg-gradient-primary-warm text-white scale-125 shadow-lg"
+                          : isLit
+                          ? "bg-primary text-white scale-100"
+                          : "bg-muted text-muted-foreground scale-90"
+                      }`}
+                    >
+                      {index + 1}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          ))}
-        </div>
-
-        {/* Mobile/Tablet Carousel View - Swipe enabled */}
-        <div className="lg:hidden overflow-hidden -mx-4 sm:-mx-8">
-          <div className="relative px-4 sm:px-8">
-            {/* Carousel Container */}
-            <div className="relative min-h-[280px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.2}
-                  onDragEnd={handleDragEnd}
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative cursor-grab active:cursor-grabbing"
-                >
-                  {/* Step Number */}
-                  <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-gradient-primary-warm flex items-center justify-center text-white font-bold text-base shadow-lg z-20">
-                    {currentIndex + 1}
-                  </div>
-
-                  {/* Card - Saydam, tam genişlik */}
-                  <Card
-                    icon={steps[currentIndex].icon}
-                    title={steps[currentIndex].title}
-                    description={steps[currentIndex].description}
-                    index={0}
-                    variant="default"
-                    transparent={true}
-                    className="h-full"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Swipe Hint - İlk kartta göster */}
-            {currentIndex === 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.5 }}
-                className="text-center mt-4"
-              >
-                <Text variant="small" theme="muted" className="text-xs">
-                  ← Kaydırarak gezin →
-                </Text>
-              </motion.div>
-            )}
-          </div>
-
-          {/* Indicator Dots */}
-          <div className="flex justify-center gap-2 mt-8 px-4 sm:px-8">
-            {steps.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`transition-all duration-300 rounded-full ${
-                  index === currentIndex
-                    ? "w-8 h-3 bg-gradient-primary"
-                    : "w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
-                aria-label={`${index + 1}. adıma git`}
-              />
-            ))}
           </div>
         </div>
-      </div>
-    </Container>
+
+        {/* Smooth end buffer - daha geniş */}
+        <div className="flex-shrink-0 w-[30vw] h-full" />
+      </HorizontalScrollContainer>
+    </section>
   );
 }

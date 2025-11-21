@@ -76,7 +76,7 @@ export function ServicesSection() {
   return (
     <section className="bg-background">
       {/* Başlık - Container ile */}
-      <Container className="py-16 md:py-20 text-center">
+      <Container className="text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-sm text-primary font-medium">{badge.text}</span>

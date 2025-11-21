@@ -2,88 +2,120 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Target, Zap, Lightbulb, Check } from "lucide-react";
+import { Check } from "lucide-react";
+import { H2, Text } from "@components/ui";
+import { Container } from "@/components/shared";
 
 const reasons = [
   {
-    title: "Gerçekçi ve uygulanabilir AI çözümleri",
-    description: "Hayali değil, işe yarayan sistemler"
+    title: "Gerçekçi ve Uygulanabilir AI Çözümleri",
+    description: "Hayali vaatler değil, işe yarayan sistemler kuruyoruz. Piyasadaki abartılı AI söylemlerinden uzak durarak, gerçekten işletmenize değer katacak çözümler geliştiriyoruz."
   },
   {
-    title: "Ölçümlenebilir sonuç odaklı yaklaşım",
-    description: "Her adımda somut metrikler"
+    title: "Ölçümlenebilir Sonuç Odaklı Yaklaşım",
+    description: "Her adımda somut veriler ve metriklerle ilerliyoruz. Başarıyı tahminlerle değil, ölçülebilir KPI'lar ve analitik verilerle değerlendiriyoruz."
   },
   {
-    title: "Karmaşık süreçleri sadeleştiren tasarım",
-    description: "Herkesin kullanabileceği çözümler"
+    title: "Karmaşık Süreçleri Sadeleştiren Tasarım",
+    description: "Teknik karmaşayı arka planda tutup, kullanımı kolaylaştırıyoruz. Son kullanıcının teknik bilgiye ihtiyaç duymadan sistemleri kullanabilmesini sağlıyoruz."
   },
   {
-    title: "Hızlı teslim + yüksek teknik uzmanlık",
-    description: "Hem hızlı hem kaliteli"
+    title: "Hızlı Teslim ve Yüksek Teknik Uzmanlık",
+    description: "Agile süreçlerle hem hızlı hem de kaliteli kod üretiyoruz. MVP'den üretime kadar her aşamada profesyonel mühendislik standartlarını uyguluyoruz."
   },
   {
-    title: "İnsan odaklı iletişim, şeffaf iş modeli",
-    description: "Her aşamada açık ve net"
+    title: "İnsan Odaklı İletişim, Şeffaf İş Modeli",
+    description: "Sürecin her aşamasında açık, net ve ulaşılabiliriz. Gizli maliyetler veya belirsiz süreçler yerine, tam şeffaflık ve sürekli iletişim sunuyoruz."
   }
 ];
 
 export function WhyMersaSection() {
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 backdrop-blur-sm mb-6">
-            <Target className="w-4 h-4 text-blue-500" />
-            <span className="text-sm font-medium text-blue-500">Fark Yaratan Yaklaşım</span>
-          </div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Neden MERSA?
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            İşletmelerin AI ile gerçek değer üretmesini sağlayan yaklaşımımız
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reasons.map((reason, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="relative group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100 pointer-events-none" />
-
-              <div className="relative bg-card/50 dark:bg-card/30 backdrop-blur-xl border border-border rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 h-full">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground mb-2 leading-tight">
-                      {reason.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {reason.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <Container className="py-24">
+      {/* Başlık Alanı */}
+      <div className="text-center mb-16">
+        <H2 className="mb-4">
+          Neden <span className="text-primary">MERSA?</span>
+        </H2>
+        <Text theme="muted" className="max-w-xl mx-auto">
+          İşletmelerin AI ile gerçek değer üretmesini sağlayan farklarımız.
+        </Text>
       </div>
-    </section>
+
+      {/* Liste Alanı */}
+      <div className="flex flex-col gap-6">
+        {reasons.map((reason, index) => (
+          <ReasonItem key={index} reason={reason} index={index} />
+        ))}
+      </div>
+    </Container>
   );
 }
 
+// Her bir satır için ayrı bileşen (Animasyon yönetimi için)
+function ReasonItem({ reason, index }: { reason: { title: string; description: string }, index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0.5, scale: 0.98 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{
+        once: false,
+        margin: "-20% 0px -20% 0px",
+        amount: 0.6
+      }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="relative flex items-center gap-5 p-6 rounded-2xl"
+    >
+      {/* Sol Taraftaki Tik İşareti */}
+      <div className="relative flex-shrink-0">
+        <motion.div
+          initial={{
+            scale: 1,
+            backgroundColor: "transparent",
+          }}
+          whileInView={{
+            scale: 1.1,
+            backgroundColor: "hsl(var(--primary))",
+          }}
+          viewport={{
+            once: false,
+            margin: "-20% 0px -20% 0px",
+            amount: 0.6
+          }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="w-12 h-12 rounded-full flex items-center justify-center border-2 border-primary/30"
+        >
+          <motion.div
+            initial={{ color: "hsl(var(--primary))" }}
+            whileInView={{ color: "white" }}
+            viewport={{
+              once: false,
+              margin: "-20% 0px -20% 0px",
+              amount: 0.6
+            }}
+            transition={{ duration: 0.4 }}
+          >
+            <Check className="w-6 h-6 stroke-[3]" />
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Metin Kısmı */}
+      <div className="flex-1">
+        <Text
+          variant="h5"
+          className="font-bold mb-1 text-foreground"
+        >
+          {reason.title}
+        </Text>
+        <Text
+          theme="muted"
+          className="text-sm sm:text-base leading-snug"
+        >
+          {reason.description}
+        </Text>
+      </div>
+
+    </motion.div>
+  );
+}

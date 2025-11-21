@@ -3,7 +3,7 @@
 import React, { useEffect, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { Button, Badge, AnimatedOrbs, Spotlight, Lead, Tiny, TypewriterEffect, H1 } from "@/components/ui";
+import { Button, Badge, AnimatedOrbs, Lead, Tiny, TypewriterEffect, H1 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { useSectionRegistry, SectionBgColor } from "@/context/section-context";
 
@@ -58,27 +58,23 @@ export function PageHero({
       case "gradient":
         return (
           <>
-            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-            <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="#fd8f52" />
             <AnimatedOrbs variant="subtle" />
           </>
         );
       case "minimal":
         return (
           <>
-            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
             <AnimatedOrbs variant="minimal" />
           </>
         );
       case "dots":
         return (
           <>
-            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
             <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:24px_24px]" />
           </>
         );
       default:
-        return <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />;
+        return null;
     }
   };
 

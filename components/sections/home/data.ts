@@ -95,7 +95,7 @@ export const servicesData = {
       description:
         "Web sitenize gelen ziyaretçileri otomatik olarak karşılayın, sorularını yanıtlayın ve randevu alın.",
       icon: MessageSquare,
-      image: "/images/services/service-1.png",
+      image: "/images/services/service-6.png",
       gradient: "from-green-400 to-emerald-600",
       features: [
         "Otomatik müşteri toplama",
