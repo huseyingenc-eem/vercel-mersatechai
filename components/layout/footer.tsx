@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
+import { usePathname } from "next/navigation"; 
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { SiWhatsapp, SiLinkedin, SiInstagram } from "react-icons/si";
 import { Logo } from "./logo";
@@ -45,11 +46,32 @@ const legalLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const staggerRef = useGsapStagger<HTMLDivElement>(".gsap-footer-col", { y: 40, once: false, toggleActions: "play reset play reset", start: "top 95%" });
-  const bottomBarRef = useGsapFadeIn<HTMLDivElement>({ once: false, toggleActions: "play reset play reset", start: "top 98%" });
+  const pathname = usePathname(); 
+
+  // Sütunlar için animasyon
+  const staggerRef = useGsapStagger<HTMLDivElement>(".gsap-footer-col", { 
+    y: 60, 
+    duration: 0.8, 
+    stagger: 0.15, 
+    once: false, 
+    start: "top 90%",  
+    ease: "power3.out"
+  });
+
+  // DÜZELTME BURADA YAPILDI:
+  // Alt bar için de y değerini ve duration'ı yukarıdakilerle eşitledik.
+  const bottomBarRef = useGsapFadeIn<HTMLDivElement>({ 
+    y: 60,          // EKLENDİ: Aşağıdan yukarı kayması için
+    duration: 0.8,  // GÜNCELLENDİ: Yukarıdaki hızla uyumlu olması için
+    once: false, 
+    start: "top 100%" // Tetikleme noktası en alt olduğu için biraz daha geç başlatabiliriz
+  });
 
   return (
-    <footer className="relative w-full bg-card border-t border-border overflow-hidden">
+    <footer 
+      key={pathname} 
+      className="relative w-full bg-card border-t border-border overflow-hidden"
+    >
       <Container animate={false} className="py-12 lg:py-16">
         <div ref={staggerRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Şirket Bilgisi */}

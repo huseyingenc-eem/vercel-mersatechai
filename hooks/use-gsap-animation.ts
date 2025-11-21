@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef, RefObject,useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -46,7 +46,7 @@ function useGsapBaseAnimation<T extends HTMLElement, U extends BaseAnimationOpti
     toggleActions,
   } = options as BaseAnimationOptions & typeof options;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = target instanceof HTMLElement ? target : ref.current;
     if (!element) return;
 
@@ -54,7 +54,6 @@ function useGsapBaseAnimation<T extends HTMLElement, U extends BaseAnimationOpti
     if (animTarget instanceof NodeList && animTarget.length === 0) {
         return;
     }
-
 
     const ctx = gsap.context(() => {
       gsap.from(animTarget, {
@@ -68,10 +67,11 @@ function useGsapBaseAnimation<T extends HTMLElement, U extends BaseAnimationOpti
               ? "play none none none"
               : "play reverse play reverse",
         },
-        opacity: 0,
+        autoAlpha: 0, // opacity yerine autoAlpha kullanıyoruz (önemli!)
         duration,
         delay,
         ease,
+        immediateRender: true, // Bunu true yaparsak GSAP hemen hesaplar
         ...animationProps,
       });
     }, ref);

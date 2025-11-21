@@ -8,6 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { siteConfig, NavItem } from "@/config/site-config";
 import { Logo } from "./logo";
 import { useScrollPosition } from "@/hooks/use-scroll-position";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ export function Navbar() {
   const isMobile = useIsMobile();
   const { y } = useScrollPosition();
   const isScrolled = y > 10;
+  const pathname = usePathname();
 
   const navRef = useRef<HTMLElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -38,6 +40,14 @@ export function Navbar() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Close menus when route changes
+  useEffect(() => {
+    setIsOpen(false);
+    setOpenSubmenu(null);
+    setOpenNestedSubmenu(null);
+    setMobileMenuStack([]);
+  }, [pathname]);
 
   // GSAP animation for scroll and menu-open behavior
   useEffect(() => {

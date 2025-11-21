@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+import { SiteFooter} from "@/components/layout/site-footer";
 import { ThemeProvider } from "@components/providers/theme-provider";
 import { PageTransitionProvider } from "@/components/providers/page-transition-provider";
 import { SectionProvider } from "@/context/section-context";
+import { Footer } from "@/components/layout/footer";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -59,7 +60,7 @@ export default function RootLayout({
               <main className="min-h-screen w-full overflow-x-hidden">
                 {children}
               </main>
-              <Footer />
+              <SiteFooter />
             </PageTransitionProvider>
           </SectionProvider>
         </ThemeProvider>
